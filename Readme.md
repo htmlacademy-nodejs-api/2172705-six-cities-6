@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Роман Пронин](https://up.htmlacademy.ru/nodejs-api/6/user/2172705).
-* Наставник: `Неизвестно`.
+* Наставник: [Rail Sakhaviev](https://htmlacademy.ru/profile/id1331891).
 
 ---
 
