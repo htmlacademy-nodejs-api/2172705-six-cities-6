@@ -1,0 +1,15 @@
+{
+  "printWidth": 90,
+  "semi": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "*.{js,mjs,ts}",
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}
