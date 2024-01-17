@@ -1,15 +1,34 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { FacilitiesType, HousingType } from '../../../const/index.js';
-import { TOffer } from '../../../types/index.js';
+import {
+  TFacilities,
+  THousingType,
+  TLocation,
+  TOffer,
+  TUser,
+  TUserType,
+} from '../../../types/index.js';
 import { IFileReader } from '../interface/file-reader.interface.js';
-import { getAuthorData } from './lib/get-author-data.js';
-import { getCoordinatesData } from './lib/get-coordinates-data.js';
+
+const getAuthorData = (data: string): TUser => {
+  const parsedData = data.split(';');
+  const [firstname, email, avatar, password, type] = parsedData;
+
+  return { firstname, email, avatar, password, type: type as TUserType };
+};
+
+const getLocationData = (data: string): TLocation => {
+  const parsedData = data.split(';');
+  const [latitude, longitude] = parsedData;
+
+  return { latitude: Number(latitude), longitude: Number(longitude) };
+};
 
 export class TSVFileReader implements IFileReader {
+  private _rawData: string = '';
+
   constructor(
-    private _filePath: string,
-    private _rawData: string = ''
+    private readonly _filePath: string
   ) {}
 
   public read(): void {
@@ -39,7 +58,7 @@ export class TSVFileReader implements IFileReader {
           facilities,
           author,
           commentsCount,
-          coordinates,
+          location,
         ]): TOffer => ({
           title,
           description,
@@ -50,14 +69,14 @@ export class TSVFileReader implements IFileReader {
           isPremium: isPremium === 'true',
           isFavorite: isFavorite === 'true',
           rating: Number(rating),
-          housingType: HousingType[housingType as HousingType],
+          housingType: housingType as THousingType,
           roomsCount: Number(roomsCount),
           guestsCount: Number(guestsCount),
           cost: Number(cost),
-          facilities: facilities.split(';') as FacilitiesType[],
+          facilities: facilities.split(';') as TFacilities[],
           author: getAuthorData(author),
           commentsCount: Number(commentsCount),
-          coordinates: getCoordinatesData(coordinates),
+          location: getLocationData(location),
         }),
       );
   }

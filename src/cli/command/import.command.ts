@@ -3,9 +3,7 @@ import { TSVFileReader } from '../../shared/lib/index.js';
 import { ICommand } from '../interface/command.interface.js';
 
 export class ImportCommand implements ICommand {
-  constructor(
-    private readonly _name: string = '--import'
-  ) {}
+  private readonly _name: string = '--import';
 
   public get name(): string {
     return this._name;

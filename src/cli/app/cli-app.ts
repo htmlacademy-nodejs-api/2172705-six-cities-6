@@ -4,9 +4,10 @@ import { CommandParser } from './lib/command-parser.js';
 type RegistredCommands = Record<string, ICommand>;
 
 export class CLIApp {
+  private _registredCommands: RegistredCommands = {};
+
   constructor(
-    private readonly _defaultCommand: string = '--help',
-    private _registredCommands: RegistredCommands = {},
+    private readonly _defaultCommand: string = '--help'
   ) {}
 
   private getCommand(name: string): ICommand {

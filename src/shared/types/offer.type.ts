@@ -1,25 +1,24 @@
-import { TCoordinates } from './coordinates.type.js';
-import { FacilitiesType } from '../const/facilities-type.enum.js';
-import { HousingType } from '../const/housing-type.enum.js';
-import { TImage } from './image.type.js';
+import { TLocation } from './location.type.js';
+import { TFacilities } from './facilities.type.js';
 import { TUser } from './user.type.js';
+import { THousingType } from './housing-type.type.js';
 
 export type TOffer = {
   title: string;
   description: string;
   date: string;
   city: string;
-  previewImage: TImage;
-  imagesList: TImage[];
+  previewImage: string;
+  imagesList: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
-  housingType: HousingType;
+  housingType: THousingType;
   roomsCount: number;
   guestsCount: number;
   cost: number;
-  facilities: FacilitiesType[];
+  facilities: TFacilities[];
   author: TUser;
   commentsCount: number;
-  coordinates: TCoordinates;
+  location: TLocation;
 };

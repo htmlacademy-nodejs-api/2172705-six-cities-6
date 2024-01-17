@@ -1,4 +1,4 @@
-export type TCoordinates = {
+export type TLocation = {
   latitude: number;
   longitude: number;
 };

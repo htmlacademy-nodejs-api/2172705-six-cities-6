@@ -14,8 +14,9 @@ const isPackageJSONConfig = (content: unknown): content is TPackageJSONConfig =>
   Object.hasOwn(content, 'version');
 
 export class VersionCommand implements ICommand {
+  private readonly _name: string = '--version';
+
   constructor(
-    private readonly _name: string = '--version',
     private readonly _filePath: string = './package.json',
   ) {}
 
@@ -37,7 +38,7 @@ export class VersionCommand implements ICommand {
   public async execute(..._params: string[]): Promise<void> {
     try {
       const version = this.readVersion();
-      console.info(chalk.bold.green(version));
+      console.info(chalk.green(version));
     } catch (err) {
       console.error(chalk.red(`Failed to read version from ${this._filePath}`));
 
