@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { ICommand } from '../interface/command.interface.js';
+import { ICommand } from './command.interface.js';
 
 type TPackageJSONConfig = {
   version: string;

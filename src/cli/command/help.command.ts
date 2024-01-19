@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { ICommand } from '../interface/command.interface.js';
+import { ICommand } from './command.interface.js';
 
 export class HelpCommand implements ICommand {
   private readonly _name: string = '--help';

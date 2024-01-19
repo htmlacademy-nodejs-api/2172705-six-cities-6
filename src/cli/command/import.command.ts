@@ -1,6 +1,6 @@
 import chalk from 'chalk';
-import { TSVFileReader } from '../../shared/lib/index.js';
-import { ICommand } from '../interface/command.interface.js';
+import { TSVFileReader } from './lib/index.js';
+import { ICommand } from './command.interface.js';
 
 export class ImportCommand implements ICommand {
   private readonly _name: string = '--import';

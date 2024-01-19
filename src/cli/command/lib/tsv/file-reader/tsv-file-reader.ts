@@ -7,24 +7,33 @@ import {
   TOffer,
   TUser,
   TUserType,
-} from '../../../types/index.js';
-import { IFileReader } from '../interface/file-reader.interface.js';
+} from '@/shared/types/index.js';
+import { ITSVFileReader } from './tsv-file-reader.interface.js';
 
 const getAuthorData = (data: string): TUser => {
   const parsedData = data.split(';');
   const [firstname, email, avatar, password, type] = parsedData;
 
-  return { firstname, email, avatar, password, type: type as TUserType };
+  return {
+    firstname,
+    email,
+    avatar,
+    password,
+    type: type as TUserType
+  };
 };
 
 const getLocationData = (data: string): TLocation => {
   const parsedData = data.split(';');
   const [latitude, longitude] = parsedData;
 
-  return { latitude: Number(latitude), longitude: Number(longitude) };
+  return {
+    latitude: Number(latitude),
+    longitude: Number(longitude)
+  };
 };
 
-export class TSVFileReader implements IFileReader {
+export class TSVFileReader implements ITSVFileReader {
   private _rawData: string = '';
 
   constructor(
