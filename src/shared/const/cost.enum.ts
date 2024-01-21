@@ -1,0 +1,4 @@
+export enum Cost {
+  Min = 100,
+  Max = 100000
+}
