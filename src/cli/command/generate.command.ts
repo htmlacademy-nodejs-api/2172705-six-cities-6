@@ -1,6 +1,6 @@
 import got from 'got';
 import chalk from 'chalk';
-import { unlink } from 'node:fs';
+import { unlinkSync } from 'node:fs';
 import { TMockServerData } from "@/mock-server-data.type.js";
 import { getErrorMessage } from '@/shared/lib/index.js';
 import { TSVFileWriter, TSVOfferGenerator } from './lib/index.js';
@@ -22,11 +22,12 @@ export class GenerateCommand implements ICommand {
     const tsvOfferGenerator = new TSVOfferGenerator(this._mockData);
     const tsvFileWriter = new TSVFileWriter(filePath);
 
-    unlink(filePath, (err) => {
-      if (!err) {
-        console.info(chalk.green(`Previous version of file ${filePath} was deleted!`));
-      }
-    });
+    try {
+      unlinkSync(filePath);
+      console.info(chalk.green(`Previous version of file ${filePath} was deleted!`));
+    } catch {
+      console.info(chalk.green(`Previous version of file ${filePath} does not exist!`));
+    }
 
     await tsvFileWriter.write(tsvOfferGenerator.generateHeader());
 
