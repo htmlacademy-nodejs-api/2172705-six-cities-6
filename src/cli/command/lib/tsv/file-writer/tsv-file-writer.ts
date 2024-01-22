@@ -1,7 +1,7 @@
 import { WriteStream, createWriteStream } from 'node:fs';
-import { IFileWriter } from './file-writer.interface.js';
+import { ITSVFileWriter } from './tsv-file-writer.interface.js';
 
-export class TSVFileWriter implements IFileWriter {
+export class TSVFileWriter implements ITSVFileWriter {
   private _stream: WriteStream;
 
   constructor(filePath: string) {
@@ -12,8 +12,8 @@ export class TSVFileWriter implements IFileWriter {
     });
   }
 
-  public async write(row: string): Promise<unknown> {
-    const isWriteSuccess = this._stream.write(row);
+  public async write(record: string): Promise<unknown> {
+    const isWriteSuccess = this._stream.write(record);
 
     if (!isWriteSuccess) {
       return new Promise((resolve) => {
