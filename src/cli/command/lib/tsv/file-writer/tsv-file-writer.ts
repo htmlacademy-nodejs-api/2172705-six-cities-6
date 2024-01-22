@@ -17,8 +17,8 @@ export class TSVFileWriter implements IFileWriter {
 
     if (!isWriteSuccess) {
       return new Promise((resolve) => {
-        this._stream.once('drain', () => resolve(true))
-      })
+        this._stream.once('drain', () => resolve(true));
+      });
     }
 
     return Promise.resolve();

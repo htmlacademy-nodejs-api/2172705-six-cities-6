@@ -9,6 +9,7 @@ async function bootstrap() {
 
   for (const filePath of commandFilePaths) {
     const resolvedFilePath = pathToFileURL(filePath);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const importedModule = await import(resolvedFilePath.pathname);
 
     Object.keys(importedModule).forEach((name) => {
