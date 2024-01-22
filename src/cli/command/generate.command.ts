@@ -2,6 +2,7 @@ import got from 'got';
 import chalk from 'chalk';
 import { unlink } from 'node:fs';
 import { TMockServerData } from "@/mock-server-data.type.js";
+import { getErrorMessage } from '@/shared/lib/index.js';
 import { TSVFileWriter, TSVOfferGenerator } from './lib/index.js';
 import { ICommand } from "./command.interface.js";
 
@@ -46,11 +47,8 @@ export class GenerateCommand implements ICommand {
       await this.write(Number(count), filePath);
       console.info(chalk.green(`File ${filePath} was created!`));
     } catch (err: unknown) {
-      if (err instanceof Error) {
-        console.error(chalk.green(err.message));
-      }
-
       console.error(chalk.green('Can\'t generate data'));
+      console.error(chalk.red(getErrorMessage(err)));
     }
   }
 }

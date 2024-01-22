@@ -1,7 +1,7 @@
 import chalk from 'chalk';
-import { TSVFileReader } from './lib/index.js';
+import { getErrorMessage } from '@/shared/lib/index.js';
+import { TSVFileReader, createOffer } from './lib/index.js';
 import { ICommand } from './command.interface.js';
-import { createOffer } from './lib/tsv/createOffer/createOffer.js';
 
 export class ImportCommand implements ICommand {
   private readonly _name: string = '--import';
@@ -27,12 +27,9 @@ export class ImportCommand implements ICommand {
 
     try {
       await tsvReader.read();
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(chalk.red(`Can't import data from file: ${filePath}`));
-
-      if (err instanceof Error) {
-        console.error(chalk.red(`Details: ${err.message}`));
-      }
+      console.error(chalk.red(getErrorMessage(err)));
     }
   }
 }
