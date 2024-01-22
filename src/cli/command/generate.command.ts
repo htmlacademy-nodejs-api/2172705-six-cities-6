@@ -1,10 +1,9 @@
 import got from 'got';
 import chalk from 'chalk';
-import { appendFile } from 'node:fs/promises';
 import { unlink } from 'node:fs';
 import { TMockServerData } from "@/mock-server-data.type.js";
+import { TSVFileWriter, TSVOfferGenerator } from './lib/index.js';
 import { ICommand } from "./command.interface.js";
-import { TSVOfferGenerator } from './lib/index.js';
 
 export class GenerateCommand implements ICommand {
   private readonly _name: string = '--generate';
@@ -20,6 +19,7 @@ export class GenerateCommand implements ICommand {
 
   private async write(count: number, filePath: string): Promise<void> {
     const tsvOfferGenerator = new TSVOfferGenerator(this._mockData);
+    const tsvFileWriter = new TSVFileWriter(filePath);
 
     unlink(filePath, (err) => {
       if (!err) {
@@ -27,18 +27,10 @@ export class GenerateCommand implements ICommand {
       }
     });
 
-    await appendFile(
-      filePath,
-      tsvOfferGenerator.generateHeader(),
-      { encoding: 'utf8' },
-    );
+    await tsvFileWriter.write(tsvOfferGenerator.generateHeader());
 
     for (let i = 0; i < count; i++) {
-      await appendFile(
-        filePath,
-        tsvOfferGenerator.generateRecord(),
-        { encoding: 'utf8' }
-      );
+      await tsvFileWriter.write(tsvOfferGenerator.generateRecord());
     }
   }
 
@@ -54,11 +46,11 @@ export class GenerateCommand implements ICommand {
       await this.write(Number(count), filePath);
       console.info(chalk.green(`File ${filePath} was created!`));
     } catch (err: unknown) {
-      console.error(chalk.green('Can\'t generate data'));
-
       if (err instanceof Error) {
         console.error(chalk.green(err.message));
       }
+
+      console.error(chalk.green('Can\'t generate data'));
     }
   }
 }
