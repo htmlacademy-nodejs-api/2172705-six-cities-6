@@ -1,92 +1,40 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-import {
-  TFacilities,
-  THousingType,
-  TLocation,
-  TOffer,
-  TUser,
-  TUserType,
-} from '@/shared/types/index.js';
+import { ReadStream, createReadStream } from 'node:fs';
+import EventEmitter from 'node:events';
 import { ITSVFileReader } from './tsv-file-reader.interface.js';
 
-const getAuthorData = (data: string): TUser => {
-  const parsedData = data.split(';');
-  const [firstname, email, avatar, password, type] = parsedData;
+export class TSVFileReader extends EventEmitter implements ITSVFileReader {
+  private _stream: ReadStream;
 
-  return {
-    firstname,
-    email,
-    avatar,
-    password,
-    type: type as TUserType
-  };
-};
-
-const getLocationData = (data: string): TLocation => {
-  const parsedData = data.split(';');
-  const [latitude, longitude] = parsedData;
-
-  return {
-    latitude: Number(latitude),
-    longitude: Number(longitude)
-  };
-};
-
-export class TSVFileReader implements ITSVFileReader {
-  private _rawData: string = '';
-
-  constructor(
-    private readonly _filePath: string
-  ) {}
-
-  public read(): void {
-    this._rawData = readFileSync(resolve(this._filePath), { encoding: 'utf-8' });
+  constructor(private readonly _filePath: string) {
+    super();
+    this._stream = createReadStream(this._filePath, {
+      encoding: 'utf-8',
+      autoClose: true,
+    });
   }
 
-  public toArray() {
-    return this._rawData
-      .split('\n')
-      .filter((row, index) => index !== 0 && row.trim())
-      .map((row) => row.split('\t'))
-      .map(
-        ([
-          title,
-          description,
-          date,
-          city,
-          previewImage,
-          imagesList,
-          isPremium,
-          isFavorite,
-          rating,
-          housingType,
-          roomsCount,
-          guestsCount,
-          cost,
-          facilities,
-          author,
-          commentsCount,
-          location,
-        ]): TOffer => ({
-          title,
-          description,
-          date,
-          city,
-          previewImage,
-          imagesList: imagesList.split(';'),
-          isPremium: isPremium === 'true',
-          isFavorite: isFavorite === 'true',
-          rating: Number(rating),
-          housingType: housingType as THousingType,
-          roomsCount: Number(roomsCount),
-          guestsCount: Number(guestsCount),
-          cost: Number(cost),
-          facilities: facilities.split(';') as TFacilities[],
-          author: getAuthorData(author),
-          commentsCount: Number(commentsCount),
-          location: getLocationData(location),
-        }),
-      );
+  public async read(): Promise<void> {
+    let remainingData = '';
+    let newLineCharPosition = -1;
+    let readedRecordsCount = -1;
+
+    for await (const chunk of this._stream) {
+      remainingData += chunk.toString();
+
+      while (remainingData.indexOf('\n') >= 0) {
+        newLineCharPosition = remainingData.indexOf('\n');
+        const readedRecord = remainingData.slice(0, newLineCharPosition + 1);
+        remainingData = remainingData.slice(newLineCharPosition + 1);
+
+        newLineCharPosition++;
+        readedRecordsCount++;
+
+        if (readedRecordsCount !== 0) {
+          this.emit('readed', readedRecord);
+        }
+      }
+    }
+
+    this.emit('end', readedRecordsCount);
   }
 }
