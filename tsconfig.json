@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -25,16 +26,21 @@
     ],
     "lib": [
       "ESNext"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*",
+        "mocks/*",
+      ]
+    },
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "mocks/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "**/*.test.ts"
-  ],
-  "ts-node": {
-    "esm": true
-  }
+  ]
 }
