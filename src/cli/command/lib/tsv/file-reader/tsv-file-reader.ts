@@ -7,13 +7,14 @@ export class TSVFileReader extends EventEmitter implements ITSVFileReader {
 
   constructor(private readonly _filePath: string) {
     super();
+  }
+
+  public async read(): Promise<void> {
     this._stream = createReadStream(this._filePath, {
       encoding: 'utf-8',
       autoClose: true,
     });
-  }
 
-  public async read(): Promise<void> {
     let remainingData = '';
     let newLineCharPosition = -1;
     let readedRecordsCount = -1;
