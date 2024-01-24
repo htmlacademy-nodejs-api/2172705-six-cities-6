@@ -1,41 +1,34 @@
-import { ReadStream, createReadStream } from 'node:fs';
+import { createReadStream } from 'node:fs';
 import EventEmitter from 'node:events';
+import * as readline from 'node:readline/promises';
 import { ITSVFileReader } from './tsv-file-reader.interface.js';
 
 export class TSVFileReader extends EventEmitter implements ITSVFileReader {
-  private _stream: ReadStream;
-
   constructor(private readonly _filePath: string) {
     super();
   }
 
   public async read(): Promise<void> {
-    this._stream = createReadStream(this._filePath, {
-      encoding: 'utf-8',
-      autoClose: true,
+    const rl = readline.createInterface({
+      input: createReadStream(this._filePath, {
+        encoding: 'utf-8',
+        autoClose: true,
+      }),
     });
 
-    let remainingData = '';
-    let newLineCharPosition = -1;
+    //NOTE: the first record is a header with field names that should be skipped
     let readedRecordsCount = -1;
 
-    for await (const chunk of this._stream) {
-      remainingData += chunk.toString();
+    rl.on('line', (line) => {
+      readedRecordsCount++;
 
-      while (remainingData.indexOf('\n') >= 0) {
-        newLineCharPosition = remainingData.indexOf('\n');
-        const readedRecord = remainingData.slice(0, newLineCharPosition + 1);
-        remainingData = remainingData.slice(newLineCharPosition + 1);
-
-        newLineCharPosition++;
-        readedRecordsCount++;
-
-        if (readedRecordsCount !== 0) {
-          this.emit('readed', readedRecord);
-        }
+      if (readedRecordsCount !== 0) {
+        this.emit('readed', line);
       }
-    }
+    });
 
-    this.emit('end', readedRecordsCount);
+    rl.on('close', () => {
+      this.emit('end', readedRecordsCount);
+    });
   }
 }
