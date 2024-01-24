@@ -1,0 +1,78 @@
+{
+  "api": {
+    "titles": [
+      "Royal apartment",
+      "Student room",
+      "Cool hotel",
+      "Big house",
+      "Cheap room"
+    ],
+    "descriptions": [
+      "Non aliqua elit ut magna Lorem aliqua et duis. Laboris est mollit et ullamco elit ipsum eu qui. Aliqua nostrud non excepteur officia ad velit eiusmod laboris mollit sunt ullamco veniam eu.",
+      "Sint laboris proident dolor Lorem pariatur mollit do nisi et esse in tempor aliqua est. Laboris mollit dolor do amet esse esse dolor. Consequat esse elit id non culpa ex reprehenderit laboris eiusmod. Lorem tempor sint in labore velit culpa. Anim officia minim ea magna exercitation esse veniam minim sit do id.",
+      "Mollit ipsum pariatur elit anim officia anim irure esse. Eiusmod adipisicing qui eiusmod incididunt officia proident irure laboris consectetur sunt qui. Aliquip irure laborum exercitation consequat laboris irure sint ea. Fugiat sunt velit Lorem ea cillum aliqua amet consectetur aliquip ut excepteur ad nisi. Sunt consectetur in occaecat eu minim dolore occaecat. Ad deserunt exercitation anim proident deserunt ex ea ipsum ut aliqua dolore labore.",
+      "Eu enim pariatur qui dolore ullamco in pariatur pariatur dolore laborum. Reprehenderit laboris duis ipsum sit ut pariatur proident eiusmod culpa irure sunt sit mollit. Mollit commodo magna dolore sint nisi elit tempor velit id incididunt magna nisi magna. Velit consectetur ex aliqua fugiat do. Consectetur dolore Lorem cupidatat fugiat ullamco. Sit duis ex nostrud id adipisicing magna consectetur tempor consequat ut ad eu consectetur elit.",
+      "Nostrud adipisicing excepteur esse occaecat occaecat et anim dolor exercitation elit sit amet nostrud. Dolore nisi commodo cupidatat qui ut veniam enim cupidatat ullamco proident. Aliqua et magna Lorem eiusmod cillum exercitation."
+    ],
+    "cities": [
+      { "name": "Paris", "location": [48.85661, 2.351499] },
+      { "name": "Cologne", "location": [50.938361, 6.959974] },
+      { "name": "Brussels", "location": [50.846557, 4.351697] },
+      { "name": "Amsterdam", "location": [52.370216, 4.895168] },
+      { "name": "Hamburg", "location": [53.550341, 10.000654] },
+      { "name": "Dusseldorf", "location": [51.225402, 6.776314] }
+    ],
+    "housingTypes": [
+      "Apartment",
+      "House",
+      "Room",
+      "Hotel"
+    ],
+    "facilities": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "authors": [
+      {
+        "firstname": "Roman",
+        "email": "roman@mail.ru",
+        "password": "qwerty123",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      },
+      {
+        "firstname": "Alex",
+        "email": "alex@mail.ru",
+        "password": "qwerty1234",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      },
+      {
+        "firstname": "Maria",
+        "email": "maria@mail.ru",
+        "password": "qwerty12345",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Basic"
+      },
+      {
+        "firstname": "Elena",
+        "email": "elena@mail.ru",
+        "password": "qwerty123456",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Basic"
+      },
+      {
+        "firstname": "Jane",
+        "email": "jane@mail.ru",
+        "password": "qwerty1234567",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      }
+    ]
+  }
+}

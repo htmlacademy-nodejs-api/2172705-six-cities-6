@@ -1,4 +1,8 @@
 export { CLIApp } from './app/cli-app.js';
-export { HelpCommand } from './command/help.command.js';
-export { VersionCommand } from './command/version.command.js';
-export { ImportCommand } from './command/import.command.js';
+export type { ICommand } from './command/index.js';
+export {
+  HelpCommand,
+  ImportCommand,
+  VersionCommand,
+  COMMAND_PATH_TEMPLATE,
+} from './command/index.js';

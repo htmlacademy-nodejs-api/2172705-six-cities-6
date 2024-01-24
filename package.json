@@ -1,6 +1,6 @@
 {
   "name": "six-cities",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Проект «Шесть городов» от HTML Academy",
   "keywords": [
     "rest",
@@ -14,10 +14,14 @@
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "ts-node"
+    "ts": "tsx",
+    "mock:server": "json-server mocks/server-data.mock.json -w -p 3001"
   },
   "dependencies": {
-    "chalk": "5.3.0"
+    "chalk": "5.3.0",
+    "dayjs": "1.11.10",
+    "glob": "10.3.10",
+    "got": "14.0.0"
   },
   "devDependencies": {
     "@types/node": "18.17.17",
@@ -25,13 +29,15 @@
     "@typescript-eslint/parser": "6.7.0",
     "eslint": "8.49.0",
     "eslint-config-htmlacademy": "9.1.1",
+    "json-server": "0.17.3",
     "rimraf": "5.0.1",
-    "ts-node": "10.9.1",
+    "tslib": "2.6.2",
+    "tsx": "4.7.0",
     "typescript": "5.2.2"
   },
   "type": "module",
   "engines": {
-    "node": "^18.0.0",
+    "node": "^20.0.0",
     "npm": ">=8"
   }
 }

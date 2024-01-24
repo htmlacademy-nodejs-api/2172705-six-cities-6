@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { ICommand } from '../interface/command.interface.js';
+import { ICommand } from './command.interface.js';
 
 export class HelpCommand implements ICommand {
   private readonly _name: string = '--help';
@@ -17,6 +17,7 @@ export class HelpCommand implements ICommand {
           ${chalk.cyan('--version')}                      ${chalk.magenta('# выводит номер версии')}
           ${chalk.cyan('--help')}                         ${chalk.magenta('# печатает этот текст')}
           ${chalk.cyan('--import <path>')}                ${chalk.magenta('# импортирует данные из TSV')}
+          ${chalk.cyan('--generate <n> <path> <url>')}    ${chalk.magenta('# генерирует произвольное количество тестовых данных')}
   `);
   }
 }

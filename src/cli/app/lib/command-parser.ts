@@ -1,6 +1,7 @@
-type ParsedCommands = Record<string, string[]>;
+import { ICommandParser } from './command-parser.interface.js';
+import { ParsedCommands } from './parsed-commands.type.js';
 
-export class CommandParser {
+export const CommandParser: ICommandParser = class {
   public static parse(argv: string[]): ParsedCommands {
     const parsedCommand: ParsedCommands = {};
     let currentCommand = '';
@@ -16,4 +17,4 @@ export class CommandParser {
 
     return parsedCommand;
   }
-}
+};

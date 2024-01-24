@@ -1,14 +1,27 @@
-import { CLIApp, HelpCommand, ImportCommand, VersionCommand } from './cli/index.js';
+import { pathToFileURL } from 'node:url';
+import { glob } from 'glob';
+import { CLIApp, COMMAND_PATH_TEMPLATE, ICommand } from './cli/index.js';
 
-function bootstrap() {
+async function bootstrap() {
   const cliApp = new CLIApp();
+  const commandFilePaths = glob.sync(COMMAND_PATH_TEMPLATE);
+  const commandInstances: ICommand[] = [];
 
-  cliApp.registerCommands([
-    new HelpCommand(),
-    new VersionCommand(),
-    new ImportCommand()
-  ]);
+  for (const filePath of commandFilePaths) {
+    const resolvedFilePath = pathToFileURL(filePath);
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
+    const importedModule = await import(resolvedFilePath.pathname);
 
+    Object.keys(importedModule).forEach((name) => {
+      const importedItem = importedModule[name];
+
+      if (importedItem.prototype && importedItem.prototype.execute) {
+        commandInstances.push(new importedItem());
+      }
+    });
+  }
+
+  cliApp.registerCommands(commandInstances);
   cliApp.proccessCommand(process.argv);
 }
 
