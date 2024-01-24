@@ -4,7 +4,8 @@
       "Royal apartment",
       "Student room",
       "Cool hotel",
-      "Big house"
+      "Big house",
+      "Cheap room"
     ],
     "descriptions": [
       "Non aliqua elit ut magna Lorem aliqua et duis. Laboris est mollit et ullamco elit ipsum eu qui. Aliqua nostrud non excepteur officia ad velit eiusmod laboris mollit sunt ullamco veniam eu.",
@@ -37,11 +38,41 @@
       "Fridge"
     ],
     "authors": [
-      "Roman;roman@mail.ru;roman-mail-ru-avatar.jpg;qwerty123;Pro",
-      "Alex;alex@mail.ru;alex-mail-ru-avatar.jpg;qwerty1234;Pro",
-      "Maria;maria@mail.ru;maria-mail-ru-avatar.jpg;qwerty12345;Basic",
-      "Elena;elena@mail.ru;elena-mail-ru-avatar.jpg;qwerty123456;Basic",
-      "Jane;jane@mail.ru;jane-mail-ru-avatar.jpg;qwerty1234567;Pro"
+      {
+        "firstname": "Roman",
+        "email": "roman@mail.ru",
+        "password": "qwerty123",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      },
+      {
+        "firstname": "Alex",
+        "email": "alex@mail.ru",
+        "password": "qwerty1234",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      },
+      {
+        "firstname": "Maria",
+        "email": "maria@mail.ru",
+        "password": "qwerty12345",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Basic"
+      },
+      {
+        "firstname": "Elena",
+        "email": "elena@mail.ru",
+        "password": "qwerty123456",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Basic"
+      },
+      {
+        "firstname": "Jane",
+        "email": "jane@mail.ru",
+        "password": "qwerty1234567",
+        "avatar": "https://loremflickr.com/50/50/avatar",
+        "type": "Pro"
+      }
     ]
   }
 }

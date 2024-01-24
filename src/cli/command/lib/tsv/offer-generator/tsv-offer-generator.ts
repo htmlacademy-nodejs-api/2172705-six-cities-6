@@ -10,14 +10,14 @@ import {
 } from '@/shared/const/index.js';
 import { TOffer } from '@/shared/types/offer.type.js';
 
-enum DateGenerationEntry {
+enum DateGeneration {
   Min = 1,
-  Max = 30
+  Max = 240,
+  Unit = 'hour'
 }
 
-enum LocationGenerationEntry {
-  Min = 1,
-  Max = 9,
+enum LocationGeneration {
+  Epsilon = 0.1,
   Precision = 6
 }
 
@@ -62,7 +62,10 @@ export class TSVOfferGenerator implements ITSVOfferGenerator {
     const description = getRandomItem(this._mockData.descriptions);
 
     const date = dayjs()
-      .subtract(getRandomNumber(DateGenerationEntry.Min, DateGenerationEntry.Max), 'days')
+      .subtract(
+        getRandomNumber(DateGeneration.Min, DateGeneration.Max),
+        DateGeneration.Unit,
+      )
       .toISOString();
 
     const cityData = getRandomItem(this._mockData.cities);
@@ -71,22 +74,18 @@ export class TSVOfferGenerator implements ITSVOfferGenerator {
     const location = cityData.location
       .map(
         (item) =>
-          item +
           getRandomNumber(
-            LocationGenerationEntry.Min,
-            LocationGenerationEntry.Min,
-            LocationGenerationEntry.Precision,
+            item - LocationGeneration.Epsilon,
+            item + LocationGeneration.Epsilon,
+            LocationGeneration.Precision,
           ),
       )
       .join(';');
 
-    const previewImage = `${title
-      .split(' ')
-      .map((item) => item.toLowerCase())
-      .join('-')}-preview.jpg`;
+    const previewImage = 'https://loremflickr.com/400/400/apartment';
 
     const imagesList = `${Array.from({ length: IMAGES_LIST_LENGTH })
-      .map((_, index) => previewImage.replace('preview', `${++index}`))
+      .map(() => 'https://loremflickr.com/250/250/apartment')
       .join(';')}`;
 
     const isPremium = Boolean(getRandomNumber(0, 1));
@@ -97,7 +96,7 @@ export class TSVOfferGenerator implements ITSVOfferGenerator {
     const guestsCount = getRandomNumber(GuestsCount.Min, GuestsCount.Max);
     const cost = getRandomNumber(Cost.Min, Cost.Max);
     const facilities = getRandomItems(this._mockData.facilities).join(';');
-    const author = getRandomItem(this._mockData.authors);
+    const author = Object.values(getRandomItem(this._mockData.authors)).join(';');
     const commentsCount = getRandomNumber(CommentsCount.Min, CommentsCount.Max);
 
     return `${[
