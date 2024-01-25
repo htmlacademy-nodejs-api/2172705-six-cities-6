@@ -8,13 +8,13 @@ import {
 
 const getAuthorData = (data: string): TUser => {
   const parsedData = data.split(';');
-  const [firstname, email, avatar, password, type] = parsedData;
+  const [firstname, email, password, avatar, type] = parsedData;
 
   return {
     firstname,
     email,
-    avatar,
     password,
+    avatar,
     type: type as TUserType,
   };
 };
