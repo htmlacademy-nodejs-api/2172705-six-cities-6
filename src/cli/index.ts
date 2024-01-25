@@ -1,4 +1,4 @@
-export { CLIApp } from './app/cli-app.js';
+export { CLIApp } from './app/cli.app.js';
 export type { ICommand } from './command/index.js';
 export {
   HelpCommand,

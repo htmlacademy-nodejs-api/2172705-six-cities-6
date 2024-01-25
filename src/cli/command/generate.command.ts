@@ -1,8 +1,8 @@
 import got from 'got';
 import chalk from 'chalk';
 import { unlinkSync } from 'node:fs';
-import { TMockServerData } from '@/mock-server-data.type.js';
 import { getErrorMessage } from '@/shared/lib/index.js';
+import { TMockServerData } from '../mock/mock-server-data.type.js';
 import { TSVFileWriter, TSVOfferGenerator } from './lib/index.js';
 import { ICommand } from './command.interface.js';
 

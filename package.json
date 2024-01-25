@@ -15,7 +15,7 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts": "tsx",
-    "mock:server": "json-server mocks/server-data.mock.json -w -p 3001"
+    "mock:server": "json-server ./src/cli/mock/server-data.mock.json -w -p 3001"
   },
   "dependencies": {
     "chalk": "5.3.0",

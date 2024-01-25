@@ -1,5 +1,5 @@
 import { ICommand } from '../command/command.interface.js';
-import { CommandParser } from './lib/command-parser.js';
+import { CommandParser } from './lib/index.js';
 
 type RegistredCommands = Record<string, ICommand>;
 
