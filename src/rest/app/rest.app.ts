@@ -1,11 +1,17 @@
 import { ILogger } from '@/shared/lib/log/index.js';
+import { IRESTConfig } from '../config/rest-config.interface.js';
+import { IRESTSchema } from '../config/rest.schema.js';
 
 export class RESTApp {
   constructor(
-    private readonly _logger: ILogger
+    private readonly _logger: ILogger,
+    private readonly _config: IRESTConfig<IRESTSchema>
   ) {}
 
   public init() {
     this._logger.info('Application initialization');
+    this._logger.info(`Get value from env $SIX_CITIES_APP_PORT: ${this._config.get('PORT')}`);
+    this._logger.info(`Get value from env $SIX_CITIES_APP_SALT: ${this._config.get('SALT')}`);
+    this._logger.info(`Get value from env $SIX_CITIES_APP_DB_HOST: ${this._config.get('DB_HOST')}`);
   }
 }
