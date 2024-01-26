@@ -6,7 +6,7 @@ import {
   Interface,
   RESTApp,
   RESTConfig,
-} from './rest/index.js';
+} from './apps/rest/index.js';
 import { ILogger, PinoLogger } from './shared/lib/index.js';
 
 function bootstrap() {

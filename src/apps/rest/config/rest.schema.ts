@@ -1,13 +1,8 @@
 import convict from 'convict';
 import formats from 'convict-format-with-validator';
+import { IRESTSchema } from './interface/index.js';
 
 convict.addFormats(formats);
-
-export interface IRESTSchema {
-  PORT: number;
-  SALT: string;
-  DB_HOST: string;
-}
 
 export const restSchema = convict<IRESTSchema>({
   PORT: {

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { ILogger } from '@/shared/lib/log/index.js';
-import { IRESTConfig } from '../config/rest-config.interface.js';
-import { IRESTSchema } from '../config/rest.schema.js';
+import { IRESTConfig, IRESTSchema } from '../config/interface/index.js';
 import { Interface } from '../const/index.js';
 
 @injectable()

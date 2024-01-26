@@ -1,6 +1,6 @@
 import { pathToFileURL } from 'node:url';
 import { glob } from 'glob';
-import { CLIApp, COMMAND_PATH_TEMPLATE, ICommand } from './cli/index.js';
+import { CLIApp, COMMAND_PATH_TEMPLATE, ICommand } from './apps/cli/index.js';
 
 async function bootstrap() {
   const cliApp = new CLIApp();

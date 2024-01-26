@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { getRandomItem, getRandomItems, getRandomNumber } from '@/shared/lib/index.js';
-import { TMockServerData } from '@/cli/mock/mock-server-data.type.js';
+import { TMockServerData } from '@/apps/cli/mock/mock-server-data.type.js';
 import { ITSVOfferGenerator } from './tsv-offer-generator.interface.js';
 import {
   Cost,
