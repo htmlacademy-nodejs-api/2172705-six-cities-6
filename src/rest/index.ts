@@ -1,2 +1,3 @@
 export { RESTApp } from './app/rest.app.js';
-export { RESTConfig } from './config/rest.config.js';
+export * from './config/index.js';
+export * from './const/index.js';

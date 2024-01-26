@@ -1,11 +1,21 @@
-import { RESTApp, RESTConfig } from './rest/index.js';
-import { PinoLogger } from './shared/lib/index.js';
+import 'reflect-metadata';
+import { Container } from 'inversify';
+import {
+  IRESTConfig,
+  IRESTSchema,
+  Interface,
+  RESTApp,
+  RESTConfig,
+} from './rest/index.js';
+import { ILogger, PinoLogger } from './shared/lib/index.js';
 
 function bootstrap() {
-  const logger = new PinoLogger();
-  const config = new RESTConfig(logger);
-  const restApp = new RESTApp(logger, config);
+  const container = new Container();
+  container.bind<RESTApp>(Interface.IRESTApp).to(RESTApp).inSingletonScope();
+  container.bind<ILogger>(Interface.ILogger).to(PinoLogger).inSingletonScope();
+  container.bind<IRESTConfig<IRESTSchema>>(Interface.IRESTConfig).to(RESTConfig).inSingletonScope();
 
+  const restApp = container.get<RESTApp>(Interface.IRESTApp);
   restApp.init();
 }
 

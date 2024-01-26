@@ -1,11 +1,14 @@
+import { inject, injectable } from 'inversify';
 import { ILogger } from '@/shared/lib/log/index.js';
 import { IRESTConfig } from '../config/rest-config.interface.js';
 import { IRESTSchema } from '../config/rest.schema.js';
+import { Interface } from '../const/index.js';
 
+@injectable()
 export class RESTApp {
   constructor(
-    private readonly _logger: ILogger,
-    private readonly _config: IRESTConfig<IRESTSchema>
+    @inject(Interface.ILogger) private readonly _logger: ILogger,
+    @inject(Interface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>
   ) {}
 
   public init() {
