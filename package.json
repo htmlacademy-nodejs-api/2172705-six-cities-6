@@ -9,19 +9,21 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.js",
+    "start": "npm run build && node ./dist/main.rest.js",
+    "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
-    "compile": "tsc -p tsconfig.json",
+    "compile": "tsc --project tsconfig.json",
     "clean": "rimraf dist",
     "ts": "tsx",
-    "mock:server": "json-server ./src/cli/mock/server-data.mock.json -w -p 3001"
+    "mock:server": "json-server ./src/cli/mock/server-data.mock.json --watch --port 3001"
   },
   "dependencies": {
     "chalk": "5.3.0",
     "dayjs": "1.11.10",
     "glob": "10.3.10",
-    "got": "14.0.0"
+    "got": "14.0.0",
+    "pino": "8.17.2"
   },
   "devDependencies": {
     "@types/node": "18.17.17",
@@ -30,6 +32,7 @@
     "eslint": "8.49.0",
     "eslint-config-htmlacademy": "9.1.1",
     "json-server": "0.17.3",
+    "pino-pretty": "10.3.1",
     "rimraf": "5.0.1",
     "tslib": "2.6.2",
     "tsx": "4.7.0",
