@@ -1,12 +1,14 @@
-.vscode/
-node_modules/
-build/
-lib/
-dist/
-docs/
-mocks/**/*.tsv
+/node_modules/
+/build/
+/lib/
+/dist/
+/docs/
+
+coverage
+*.log
+*.tsv
+*.env
 
 .DS_Store
 .idea/*
-coverage
-*.log
+.vscode/*

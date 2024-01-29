@@ -1,4 +1,4 @@
-import { getRandomNumber } from './getRandomNumber.js';
+import { getRandomNumber } from './get-random-number.js';
 
 export const getRandomItems = <T>(items: T[]): T[] => {
   const startPosition = getRandomNumber(0, items.length - 1);

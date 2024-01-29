@@ -1,1 +1,1 @@
-export { getErrorMessage } from './getErrorMessage.js';
+export { getErrorMessage } from './get-error-message.js';
