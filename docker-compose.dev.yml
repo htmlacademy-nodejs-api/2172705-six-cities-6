@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:4.2
+    container_name: six-cities_mongo
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${SIX_CITIES_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${SIX_CITIES_DB_PASSWORD}
+    ports:
+      - ${SIX_CITIES_DB_PORT}:27017
+    volumes:
+      - six-cities_data:/data/mongo
+  mongo_express:
+    image: mongo-express:1.0.2-20
+    container_name: six-cities_mongo-express
+    restart: always
+    env_file:
+      - .env
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${SIX_CITIES_DB_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${SIX_CITIES_DB_PASSWORD}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${SIX_CITIES_DB_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${SIX_CITIES_DB_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${SIX_CITIES_DB_USERNAME}:${SIX_CITIES_DB_PASSWORD}@mongo:${SIX_CITIES_DB_PORT}/
+    ports:
+      - 8081:8081
+
+volumes:
+  six-cities_data:
