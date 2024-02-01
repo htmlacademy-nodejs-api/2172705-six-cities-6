@@ -12,8 +12,8 @@ export class RESTApp {
 
   public init() {
     this._logger.info('Application initialization');
-    this._logger.info(`Get value from env $SIX_CITIES_APP_PORT: ${this._config.get('PORT')}`);
-    this._logger.info(`Get value from env $SIX_CITIES_APP_SALT: ${this._config.get('SALT')}`);
-    this._logger.info(`Get value from env $SIX_CITIES_APP_DB_HOST: ${this._config.get('DB_HOST')}`);
+    this._logger.info(`Get value from env $SIX_CITIES_PORT: ${this._config.get('PORT')}`);
+    this._logger.info(`Get value from env $SIX_CITIES_SALT: ${this._config.get('SALT')}`);
+    this._logger.info(`Get value from env $SIX_CITIES_DB_HOST: ${this._config.get('DB_HOST')}`);
   }
 }
