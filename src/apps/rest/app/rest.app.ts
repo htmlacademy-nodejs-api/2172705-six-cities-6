@@ -1,19 +1,33 @@
 import { inject, injectable } from 'inversify';
-import { ILogger } from '@/shared/lib/log/index.js';
+import { Interface } from '@/shared/const/index.js';
+import { ILogger, IDatabaseClient, getMongoConnectionURL } from '@/shared/lib/index.js';
 import { IRESTConfig, IRESTSchema } from '../config/interface/index.js';
-import { Interface } from '../const/index.js';
 
 @injectable()
 export class RESTApp {
   constructor(
     @inject(Interface.ILogger) private readonly _logger: ILogger,
-    @inject(Interface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>
+    @inject(Interface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>,
+    @inject(Interface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
   ) {}
 
-  public init() {
+  private async _initDb(): Promise<void> {
+    const mongoConnectionURL = getMongoConnectionURL(
+      this._config.get('DB_USERNAME'),
+      this._config.get('DB_PASSWORD'),
+      this._config.get('DB_HOST'),
+      this._config.get('DB_PORT'),
+      this._config.get('DB_NAME'),
+    );
+
+    return this._dbClient.connect(mongoConnectionURL);
+  }
+
+  public async init(): Promise<void> {
     this._logger.info('Application initialization');
-    this._logger.info(`Get value from env $SIX_CITIES_PORT: ${this._config.get('PORT')}`);
-    this._logger.info(`Get value from env $SIX_CITIES_SALT: ${this._config.get('SALT')}`);
-    this._logger.info(`Get value from env $SIX_CITIES_DB_HOST: ${this._config.get('DB_HOST')}`);
+
+    this._logger.info('Database initialization');
+    await this._initDb();
+    this._logger.info('Successful database initialization');
   }
 }
