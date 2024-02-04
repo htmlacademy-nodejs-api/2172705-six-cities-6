@@ -15,7 +15,7 @@ export class OfferDTO {
   public roomsCount: number;
   public guestsCount: number;
   public cost: number;
-  public facilities: Facility;
+  public facilities: Facility[];
   public authorId: string;
   public location: TLocation;
 }
