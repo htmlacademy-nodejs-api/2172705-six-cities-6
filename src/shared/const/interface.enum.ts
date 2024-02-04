@@ -6,4 +6,6 @@ export const Interface = {
   IDatabaseClient: Symbol.for('IDatabaseClient'),
   IUserService: Symbol.for('IUserService'),
   IUserModel: Symbol.for('IUserModel'),
+  IOfferService: Symbol.for('IOfferService'),
+  IOfferModel: Symbol.for('IOfferModel'),
 } as const;
