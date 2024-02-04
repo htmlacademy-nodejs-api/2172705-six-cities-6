@@ -26,6 +26,7 @@ export interface UserEntity extends defaultClasses.Base {}
 export class UserEntity implements TUser {
   @prop({
     required: true,
+    default: '',
     trim: true,
     minlength: [Password.Min, 'Min length for password is 6'],
     maxlength: [Password.Max, 'Max length for password is 12'],
@@ -59,8 +60,7 @@ export class UserEntity implements TUser {
     required: false,
     default: 'default-avatar.jpg',
   })
-  // TODO: сделать обязательным типа "string", тк по умолчанию будет строка с дефолтной пикчей
-  public avatar?: string;
+  public avatar: string;
 
   constructor(userData: TUser) {
     this.firstname = userData.firstname;

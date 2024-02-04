@@ -1,8 +1,10 @@
+import { injectable } from 'inversify';
 import { ICommand } from '../command/command.interface.js';
 import { CommandParser } from './lib/index.js';
 
 type RegistredCommands = Record<string, ICommand>;
 
+@injectable()
 export class CLIApp {
   private _registredCommands: RegistredCommands = {};
 

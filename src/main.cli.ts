@@ -1,25 +1,31 @@
-import { pathToFileURL } from 'node:url';
-import { glob } from 'glob';
-import { CLIApp, COMMAND_PATH_TEMPLATE, ICommand } from './apps/cli/index.js';
+import 'reflect-metadata';
+import { Container } from 'inversify';
+import {
+  CLIApp,
+  HelpCommand,
+  ICommand,
+  VersionCommand,
+  createCLIAppContainer,
+} from './apps/cli/index.js';
+import { createUserContainer } from './modules/user/index.js';
+import { createOfferContainer } from './modules/offer/index.js';
+import { Interface } from './shared/const/index.js';
+import { GenerateCommand } from './apps/cli/command/generate.command.js';
 
 async function bootstrap() {
-  const cliApp = new CLIApp();
-  const commandFilePaths = glob.sync(COMMAND_PATH_TEMPLATE);
-  const commandInstances: ICommand[] = [];
+  const container = Container.merge(
+    createCLIAppContainer(),
+    createUserContainer(),
+    createOfferContainer(),
+  );
 
-  for (const filePath of commandFilePaths) {
-    const resolvedFilePath = pathToFileURL(filePath);
-    // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const importedModule = await import(resolvedFilePath.pathname);
-
-    Object.keys(importedModule).forEach((name) => {
-      const importedItem = importedModule[name];
-
-      if (importedItem.prototype && importedItem.prototype.execute) {
-        commandInstances.push(new importedItem());
-      }
-    });
-  }
+  const cliApp = container.get<CLIApp>(Interface.ICLIApp);
+  const commandInstances: ICommand[] = [
+    new HelpCommand(),
+    new VersionCommand(),
+    new GenerateCommand(),
+    container.get<ICommand>(Interface.IImportCommand),
+  ];
 
   cliApp.registerCommands(commandInstances);
   cliApp.proccessCommand(process.argv);

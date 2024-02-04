@@ -1,10 +1,10 @@
 import {
-  Ref,
   defaultClasses,
   getModelForClass,
   modelOptions,
   prop
 } from '@typegoose/typegoose';
+import type {Ref} from '@typegoose/typegoose';
 import {
   OfferTitle,
   OfferDescription,
@@ -14,8 +14,8 @@ import {
   GuestsCount,
   Cost,
   Facility,
-} from '@/shared/const/index.js';
-import { TLocation } from '@/shared/types/index.js';
+} from '../../shared/const/index.js';
+import type { TLocation } from '../../shared/types/index.js';
 import { UserEntity } from '../user/user.model.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -100,11 +100,10 @@ export class OfferEntity {
 
   @prop({
     required: true,
-    default: [],
-    type: () => String,
+    type: () => [String],
     enum: Facility,
   })
-  public facilities: Facility;
+  public facilities: Facility[];
 
   @prop({
     required: true,
@@ -112,13 +111,7 @@ export class OfferEntity {
   })
   public authorId: Ref<UserEntity>;
 
-  @prop({
-    required: true,
-    type: () => ({
-      latitude: Number,
-      longitude: Number,
-    }),
-  })
+  @prop({ required: true })
   public location: TLocation;
 
   @prop({

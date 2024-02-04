@@ -1,7 +1,7 @@
 import { DocumentType, types } from '@typegoose/typegoose';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '@/shared/lib/index.js';
-import { Interface } from '@/shared/const/interface.enum.js';
+import type { ILogger } from '../../shared/lib/index.js';
+import { Interface } from '../../shared/const/index.js';
 import { IUserService } from './user.service.interface.js';
 import { UserDTO } from './user.dto.js';
 import { UserEntity } from './user.model.js';
