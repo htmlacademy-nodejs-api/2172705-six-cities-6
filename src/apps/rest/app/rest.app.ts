@@ -25,7 +25,6 @@ export class RESTApp {
 
   public async init(): Promise<void> {
     this._logger.info('Application initialization');
-
     this._logger.info('Database initialization');
     await this._initDb();
     this._logger.info('Successful database initialization');
