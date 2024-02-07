@@ -1,12 +1,13 @@
 import { config } from 'dotenv';
 import { inject, injectable } from 'inversify';
-import { ComponentInterface } from '../../../shared/const/index.js';
-import type { ILogger } from '../../../shared/lib/index.js';
-import type { IRESTConfig, IRESTSchema } from './interfaces/index.js';
+//TODO: заменить на EComponentInterface
+import { ComponentInterface } from '../const/interface.enum.js';
+import type { ILogger } from '../lib/index.js';
+import type { IConfig, IRESTSchema } from './interfaces/index.js';
 import { restSchema } from './rest.schema.js';
 
 @injectable()
-export class RESTConfig implements IRESTConfig<IRESTSchema> {
+export class RESTConfig implements IConfig<IRESTSchema> {
   private readonly _config: IRESTSchema;
 
   constructor(

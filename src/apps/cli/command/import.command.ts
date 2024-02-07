@@ -3,6 +3,7 @@ import { inject, injectable } from 'inversify';
 import { getErrorMessage, getMongoConnectionURL } from '../../../shared/lib/index.js';
 import type { IDatabaseClient, ILogger } from '../../../shared/lib/index.js';
 import type { IOffer } from '../../../shared/interfaces/index.js';
+import type { IConfig, IRESTSchema } from '../../../shared/config/index.js';
 import { ComponentInterface } from '../../../shared/const/index.js';
 import type { IUserService } from '../../../modules/user/index.js';
 import type { IOfferService } from '../../../modules/offer/index.js';
@@ -10,7 +11,6 @@ import { TSVFileReader, createOffer } from './lib/index.js';
 import { ICommand } from './command.interface.js';
 
 const MOCK_PASSWORD = '123456';
-const MOCK_SALT = 'mockSalt';
 
 @injectable()
 export class ImportCommand implements ICommand {
@@ -18,6 +18,7 @@ export class ImportCommand implements ICommand {
 
   constructor(
     @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
+    @inject(ComponentInterface.IConfig) private readonly _config: IConfig<IRESTSchema>,
     @inject(ComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
     @inject(ComponentInterface.IUserService) private readonly _userService: IUserService,
     @inject(ComponentInterface.IOfferService) private readonly _offerService: IOfferService,
@@ -29,7 +30,7 @@ export class ImportCommand implements ICommand {
   private async _saveOffer(offer: IOffer): Promise<void> {
     const user = await this._userService.findOrCreate(
       { ...offer.author, password: MOCK_PASSWORD },
-      MOCK_SALT
+      this._config.get('SALT')
     );
 
     await this._offerService.create({
@@ -68,9 +69,16 @@ export class ImportCommand implements ICommand {
   }
 
   public async execute(...params: string[]): Promise<void> {
-    const [filePath, login, password, host, port, dbName] = params;
+    const [filePath] = params;
 
-    const mongoConnectionUrl = getMongoConnectionURL(login, password, host, port, dbName);
+    const mongoConnectionUrl = getMongoConnectionURL(
+      this._config.get('DB_USERNAME'),
+      this._config.get('DB_PASSWORD'),
+      this._config.get('DB_HOST'),
+      this._config.get('DB_PORT'),
+      this._config.get('DB_NAME'),
+    );
+
     await this._dbClient.connect(mongoConnectionUrl);
 
     const tsvReader = new TSVFileReader(filePath);

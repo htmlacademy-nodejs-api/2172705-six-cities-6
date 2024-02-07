@@ -2,13 +2,13 @@ import { inject, injectable } from 'inversify';
 import { ComponentInterface } from '../../../shared/const/index.js';
 import { getMongoConnectionURL } from '../../../shared/lib/index.js';
 import type { ILogger, IDatabaseClient } from '../../../shared/lib/index.js';
-import type { IRESTConfig, IRESTSchema } from '../config/interfaces/index.js';
+import type { IConfig, IRESTSchema } from '../../../shared/config/index.js';
 
 @injectable()
 export class RESTApp {
   constructor(
     @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
-    @inject(ComponentInterface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>,
+    @inject(ComponentInterface.IConfig) private readonly _config: IConfig<IRESTSchema>,
     @inject(ComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
   ) {}
 
