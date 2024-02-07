@@ -9,7 +9,7 @@ export class PinoLogger implements ILogger {
   private readonly _logger: PinoInstance;
 
   constructor() {
-    const moduleDirPath = getCurrentModuleDirPath();
+    const moduleDirPath = getCurrentModuleDirPath(import.meta.url);
     const logFilePath = 'logs/rest.log';
     const destination = resolve(moduleDirPath, '../../../../', logFilePath);
 
