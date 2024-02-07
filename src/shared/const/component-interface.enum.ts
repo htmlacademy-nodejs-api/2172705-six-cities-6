@@ -1,4 +1,4 @@
-export const ComponentInterface = {
+export const EComponentInterface = {
   ICLIApp: Symbol.for('ICLIApp'),
   IImportCommand: Symbol.for('IImportCommand'),
   IRESTApp: Symbol.for('IRESTApp'),

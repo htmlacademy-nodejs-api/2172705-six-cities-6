@@ -4,7 +4,7 @@ import { getErrorMessage, getMongoConnectionURL } from '../../../shared/lib/inde
 import type { IDatabaseClient, ILogger } from '../../../shared/lib/index.js';
 import type { IOffer } from '../../../shared/interfaces/index.js';
 import type { IConfig, IRESTSchema } from '../../../shared/config/index.js';
-import { ComponentInterface } from '../../../shared/const/index.js';
+import { EComponentInterface } from '../../../shared/const/index.js';
 import type { IUserService } from '../../../modules/user/index.js';
 import type { IOfferService } from '../../../modules/offer/index.js';
 import { TSVFileReader, createOffer } from './lib/index.js';
@@ -17,11 +17,11 @@ export class ImportCommand implements ICommand {
   private readonly _name: string = '--import';
 
   constructor(
-    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
-    @inject(ComponentInterface.IConfig) private readonly _config: IConfig<IRESTSchema>,
-    @inject(ComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
-    @inject(ComponentInterface.IUserService) private readonly _userService: IUserService,
-    @inject(ComponentInterface.IOfferService) private readonly _offerService: IOfferService,
+    @inject(EComponentInterface.ILogger) private readonly _logger: ILogger,
+    @inject(EComponentInterface.IConfig) private readonly _config: IConfig<IRESTSchema>,
+    @inject(EComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
+    @inject(EComponentInterface.IUserService) private readonly _userService: IUserService,
+    @inject(EComponentInterface.IOfferService) private readonly _offerService: IOfferService,
   ) {
     this._onRecordImport = this._onRecordImport.bind(this);
     this._onImportComplete = this._onImportComplete.bind(this);

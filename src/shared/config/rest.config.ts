@@ -1,7 +1,6 @@
 import { config } from 'dotenv';
 import { inject, injectable } from 'inversify';
-//TODO: заменить на EComponentInterface
-import { ComponentInterface } from '../const/interface.enum.js';
+import { EComponentInterface } from '../const/index.js';
 import type { ILogger } from '../lib/index.js';
 import type { IConfig, IRESTSchema } from './interfaces/index.js';
 import { restSchema } from './rest.schema.js';
@@ -11,7 +10,7 @@ export class RESTConfig implements IConfig<IRESTSchema> {
   private readonly _config: IRESTSchema;
 
   constructor(
-    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger
+    @inject(EComponentInterface.ILogger) private readonly _logger: ILogger
   ) {
     const parsedEnv = config();
 
