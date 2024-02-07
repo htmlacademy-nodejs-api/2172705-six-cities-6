@@ -4,14 +4,14 @@ import {
   getModelForClass,
   modelOptions,
 } from '@typegoose/typegoose';
-import { TUser } from '@/shared/types/index.js';
+import type { TUser } from '../../shared/types/index.js';
 import {
   EMAIL_REGEXP,
   UserType,
   Password,
   Firstname
-} from '@/shared/const/index.js';
-import { createSHA256 } from '@/shared/lib/index.js';
+} from '../../shared/const/index.js';
+import { createSHA256 } from '../../shared/lib/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
@@ -26,11 +26,14 @@ export interface UserEntity extends defaultClasses.Base {}
 export class UserEntity implements TUser {
   @prop({
     required: true,
-    default: '',
     trim: true,
-    minlength: [Password.Min, 'Min length for password is 6'],
-    maxlength: [Password.Max, 'Max length for password is 12'],
+    alias: '_password'
+    // TODO: решить вопрос с валидацией
+    // minlength: [Password.Min, 'Min length for password is 6'],
+    // maxlength: [Password.Max, 'Max length for password is 12'],
   })
+  private password?: string;
+
   private _password?: string;
 
   @prop({

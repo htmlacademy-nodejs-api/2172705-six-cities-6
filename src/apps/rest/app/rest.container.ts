@@ -4,8 +4,8 @@ import {
   PinoLogger,
   IDatabaseClient,
   MongoDatabaseClient
-} from '@/shared/lib/index.js';
-import { Interface } from '@/shared/const/index.js';
+} from '../../../shared/lib/index.js';
+import { Interface } from '../../../shared/const/index.js';
 import {
   IRESTConfig,
   IRESTSchema,

@@ -1,4 +1,4 @@
-import { UserType } from '@/shared/const/user-type.enum.js';
+import { UserType } from '../../shared/const/user-type.enum.js';
 
 export class UserDTO {
   public firstname: string;

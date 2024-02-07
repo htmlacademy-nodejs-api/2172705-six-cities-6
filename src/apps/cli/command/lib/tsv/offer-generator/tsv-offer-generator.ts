@@ -1,37 +1,39 @@
 import dayjs from 'dayjs';
-import { getRandomItem, getRandomItems, getRandomNumber } from '@/shared/lib/index.js';
-import { TMockServerData } from '@/apps/cli/mock/mock-server-data.type.js';
-import { ITSVOfferGenerator } from './tsv-offer-generator.interface.js';
+import {
+  getRandomItem,
+  getRandomItems,
+  getRandomNumber,
+} from '../../../../../../shared/lib/index.js';
 import {
   Cost,
   GuestsCount,
   RoomsCount,
   Rating,
-} from '@/shared/const/index.js';
-import { TOffer } from '@/shared/types/offer.type.js';
+} from '../../../../../../shared/const/index.js';
+import { TOffer } from '../../../../../../shared/types/index.js';
+import { TMockServerData } from '../../../../../../apps/cli/mock/mock-server-data.type.js';
+import { ITSVOfferGenerator } from './tsv-offer-generator.interface.js';
 
 enum DateGeneration {
   Min = 1,
   Max = 240,
-  Unit = 'hour'
+  Unit = 'hour',
 }
 
 enum LocationGeneration {
   Epsilon = 0.1,
-  Precision = 6
+  Precision = 6,
 }
 
 enum CommentsCount {
   Min = 0,
-  Max = 10
+  Max = 10,
 }
 
 const IMAGES_LIST_LENGTH = 6;
 
 export class TSVOfferGenerator implements ITSVOfferGenerator {
-  constructor(
-    private readonly _mockData: TMockServerData
-  ) {}
+  constructor(private readonly _mockData: TMockServerData) {}
 
   public generateHeader(): string {
     const fields: TuplifyUnion<keyof TOffer> = [
@@ -72,13 +74,12 @@ export class TSVOfferGenerator implements ITSVOfferGenerator {
     const { name: city } = cityData;
 
     const location = cityData.location
-      .map(
-        (item) =>
-          getRandomNumber(
-            item - LocationGeneration.Epsilon,
-            item + LocationGeneration.Epsilon,
-            LocationGeneration.Precision,
-          ),
+      .map((item) =>
+        getRandomNumber(
+          item - LocationGeneration.Epsilon,
+          item + LocationGeneration.Epsilon,
+          LocationGeneration.Precision,
+        ),
       )
       .join(';');
 

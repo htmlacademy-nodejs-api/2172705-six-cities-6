@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { getErrorMessage } from '@/shared/lib/index.js';
+import { getErrorMessage } from '../../../shared/lib/index.js';
 import { ICommand } from './command.interface.js';
 
 type TPackageJSONConfig = {

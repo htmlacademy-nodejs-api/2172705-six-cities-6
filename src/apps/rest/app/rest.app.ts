@@ -1,7 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { Interface } from '@/shared/const/index.js';
-import { ILogger, IDatabaseClient, getMongoConnectionURL } from '@/shared/lib/index.js';
-import { IRESTConfig, IRESTSchema } from '../config/interface/index.js';
+import { Interface } from '../../../shared/const/index.js';
+import { getMongoConnectionURL } from '../../../shared/lib/index.js';
+import type { ILogger, IDatabaseClient } from '../../../shared/lib/index.js';
+import type { IRESTConfig, IRESTSchema } from '../config/interface/index.js';
 
 @injectable()
 export class RESTApp {

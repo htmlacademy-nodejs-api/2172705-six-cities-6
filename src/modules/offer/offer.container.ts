@@ -1,6 +1,6 @@
 import { types } from '@typegoose/typegoose';
 import { Container } from 'inversify';
-import { Interface } from '@/shared/const/interface.enum.js';
+import { Interface } from '../../shared/const/interface.enum.js';
 import { IOfferService } from './offer.service.interface.js';
 import { OfferService } from './offer.service.js';
 import { OfferEntity, OfferModel } from './offer.model.js';

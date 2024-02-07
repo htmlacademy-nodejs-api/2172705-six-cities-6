@@ -1,8 +1,8 @@
 import { config } from 'dotenv';
 import { inject, injectable } from 'inversify';
-import { Interface } from '@/shared/const/index.js';
-import { ILogger } from '@/shared/lib/index.js';
-import { IRESTConfig, IRESTSchema } from './interface/index.js';
+import { Interface } from '../../../shared/const/index.js';
+import type { ILogger } from '../../../shared/lib/index.js';
+import type { IRESTConfig, IRESTSchema } from './interface/index.js';
 import { restSchema } from './rest.schema.js';
 
 @injectable()

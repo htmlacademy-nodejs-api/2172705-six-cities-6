@@ -1,9 +1,5 @@
-import { Facility, HousingType, UserType } from '@/shared/const/index.js';
-import {
-  TLocation,
-  TOffer,
-  TUser,
-} from '@/shared/types/index.js';
+import { Facility, HousingType, UserType } from '../../../../../../shared/const/index.js';
+import { TLocation, TOffer, TUser } from '../../../../../../shared/types/index.js';
 
 const getAuthorData = (data: string): TUser => {
   const parsedData = data.split(';');

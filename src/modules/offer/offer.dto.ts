@@ -1,5 +1,5 @@
-import { Facility, HousingType } from '@/shared/const/index.js';
-import { TLocation } from '@/shared/types/index.js';
+import { Facility, HousingType } from '../../shared/const/index.js';
+import { TLocation } from '../../shared/types/index.js';
 
 export class OfferDTO {
   public title: string;
