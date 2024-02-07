@@ -1,9 +1,9 @@
-import { UserType } from '../const/index.js';
+import { TUserType } from './user-type.type.js';
 
-// TODO: сделать интерфейсом
 export type TUser = {
   firstname: string;
   email: string;
-  type: UserType;
-  avatar: string;
+  password: string;
+  type: TUserType;
+  avatar?: string;
 };

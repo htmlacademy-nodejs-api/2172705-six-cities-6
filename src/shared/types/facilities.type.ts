@@ -1,4 +1,3 @@
-// TODO: заменить везде на енам Facility
 export type TFacilities =
   | 'Breakfast'
   | 'Air conditioning'

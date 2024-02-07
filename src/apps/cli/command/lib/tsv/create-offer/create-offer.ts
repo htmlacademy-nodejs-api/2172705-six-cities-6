@@ -1,19 +1,21 @@
-import { Facility, HousingType, UserType } from '@/shared/const/index.js';
 import {
+  TFacilities,
+  THousingType,
   TLocation,
-  TOffer,
   TUser,
+  TUserType,
 } from '@/shared/types/index.js';
 
 const getAuthorData = (data: string): TUser => {
   const parsedData = data.split(';');
-  const [firstname, email, avatar, type] = parsedData;
+  const [firstname, email, password, avatar, type] = parsedData;
 
   return {
     firstname,
     email,
+    password,
     avatar,
-    type: type as UserType,
+    type: type as TUserType,
   };
 };
 
@@ -27,7 +29,7 @@ const getLocationData = (data: string): TLocation => {
   };
 };
 
-export const createOffer = (tsvRecord: string): TOffer => {
+export const createOffer = (tsvRecord: string) => {
   const [
     title,
     description,
@@ -58,11 +60,11 @@ export const createOffer = (tsvRecord: string): TOffer => {
     isPremium: isPremium === 'true',
     isFavorite: isFavorite === 'true',
     rating: Number(rating),
-    housingType: housingType as HousingType,
+    housingType: housingType as THousingType,
     roomsCount: Number(roomsCount),
     guestsCount: Number(guestsCount),
     cost: Number(cost),
-    facilities: facilities.split(';') as Facility[],
+    facilities: facilities.split(';') as TFacilities[],
     author: getAuthorData(author),
     commentsCount: Number(commentsCount),
     location: getLocationData(location),
