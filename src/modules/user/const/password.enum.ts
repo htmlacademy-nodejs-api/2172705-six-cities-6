@@ -1,4 +1,4 @@
-export enum Password {
+export enum EPassword {
   Min = 6,
   Max = 12,
 }

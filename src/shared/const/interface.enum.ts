@@ -1,5 +1,4 @@
-// TODO: изменить везде нейминг на ComponentInterface
-export const Interface = {
+export const ComponentInterface = {
   ICLIApp: Symbol.for('ICLIApp'),
   IImportCommand: Symbol.for('IImportCommand'),
   IRESTApp: Symbol.for('IRESTApp'),

@@ -1,4 +1,4 @@
-export enum GuestsCount {
+export enum EGuests {
   Min = 1,
   Max = 10
 }

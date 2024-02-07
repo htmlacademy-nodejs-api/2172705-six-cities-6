@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
-import { Interface } from '../../../shared/const/index.js';
+import { ComponentInterface } from '../../../shared/const/index.js';
 import { getMongoConnectionURL } from '../../../shared/lib/index.js';
 import type { ILogger, IDatabaseClient } from '../../../shared/lib/index.js';
-import type { IRESTConfig, IRESTSchema } from '../config/interface/index.js';
+import type { IRESTConfig, IRESTSchema } from '../config/interfaces/index.js';
 
 @injectable()
 export class RESTApp {
   constructor(
-    @inject(Interface.ILogger) private readonly _logger: ILogger,
-    @inject(Interface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>,
-    @inject(Interface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
+    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
+    @inject(ComponentInterface.IRESTConfig) private readonly _config: IRESTConfig<IRESTSchema>,
+    @inject(ComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
   ) {}
 
   private async _initDb(): Promise<void> {

@@ -1,5 +1,5 @@
-import { Facility, HousingType } from '../../shared/const/index.js';
-import { TLocation } from '../../shared/types/index.js';
+import { EFacility, EHousingType } from '../../shared/const/index.js';
+import type { TLocation } from '../../shared/types/index.js';
 
 export class OfferDTO {
   public title: string;
@@ -11,11 +11,11 @@ export class OfferDTO {
   public isPremium: boolean;
   public isFavorite: boolean;
   public rating: number;
-  public housingType: HousingType;
+  public housingType: EHousingType;
   public roomsCount: number;
   public guestsCount: number;
   public cost: number;
-  public facilities: Facility[];
+  public facilities: EFacility[];
   public authorId: string;
   public location: TLocation;
 }

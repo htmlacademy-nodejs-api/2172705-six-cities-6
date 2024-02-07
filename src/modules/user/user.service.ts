@@ -1,7 +1,7 @@
 import { DocumentType, types } from '@typegoose/typegoose';
 import { inject, injectable } from 'inversify';
 import type { ILogger } from '../../shared/lib/index.js';
-import { Interface } from '../../shared/const/index.js';
+import { ComponentInterface } from '../../shared/const/index.js';
 import { IUserService } from './user.service.interface.js';
 import { UserDTO } from './user.dto.js';
 import { UserEntity } from './user.model.js';
@@ -9,8 +9,8 @@ import { UserEntity } from './user.model.js';
 @injectable()
 export class UserService implements IUserService {
   constructor(
-    @inject(Interface.ILogger) private readonly _logger: ILogger,
-    @inject(Interface.IUserModel) private readonly _userModel: types.ModelType<UserEntity>
+    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
+    @inject(ComponentInterface.IUserModel) private readonly _userModel: types.ModelType<UserEntity>
   ) {}
 
   public async create(dto: UserDTO, salt: string): Promise<DocumentType<UserEntity>> {

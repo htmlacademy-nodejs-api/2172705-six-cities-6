@@ -1,8 +1,8 @@
-import { Facility, HousingType } from '../const/index.js';
-import { TLocation } from './location.type.js';
-import { TUser } from './user.type.js';
+import { EFacility, EHousingType } from '../const/index.js';
+import type { TLocation } from '../types/location.type.js';
+import type { IUser } from '../interfaces/user.interface.js';
 
-export type TOffer = {
+export interface IOffer {
   title: string;
   description: string;
   date: string;
@@ -12,12 +12,12 @@ export type TOffer = {
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
-  housingType: HousingType;
+  housingType: EHousingType;
   roomsCount: number;
   guestsCount: number;
   cost: number;
-  facilities: Facility[];
-  author: TUser;
+  facilities: EFacility[];
+  author: IUser;
   commentsCount: number;
   location: TLocation;
-};
+}

@@ -1,4 +1,4 @@
-export interface ITSVOfferGenerator {
+export interface IOfferGenerator {
   generateHeader(): string;
   generateRecord(): string;
 }

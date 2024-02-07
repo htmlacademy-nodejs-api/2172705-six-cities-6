@@ -1,8 +1,8 @@
 import { config } from 'dotenv';
 import { inject, injectable } from 'inversify';
-import { Interface } from '../../../shared/const/index.js';
+import { ComponentInterface } from '../../../shared/const/index.js';
 import type { ILogger } from '../../../shared/lib/index.js';
-import type { IRESTConfig, IRESTSchema } from './interface/index.js';
+import type { IRESTConfig, IRESTSchema } from './interfaces/index.js';
 import { restSchema } from './rest.schema.js';
 
 @injectable()
@@ -10,7 +10,7 @@ export class RESTConfig implements IRESTConfig<IRESTSchema> {
   private readonly _config: IRESTSchema;
 
   constructor(
-    @inject(Interface.ILogger) private readonly _logger: ILogger
+    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger
   ) {
     const parsedEnv = config();
 

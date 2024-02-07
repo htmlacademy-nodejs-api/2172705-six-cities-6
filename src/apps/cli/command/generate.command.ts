@@ -10,7 +10,7 @@ export class GenerateCommand implements ICommand {
   private readonly _name: string = '--generate';
   private _mockData: TMockServerData;
 
-  private async load(url: string): Promise<void> {
+  private async _load(url: string): Promise<void> {
     try {
       this._mockData = await got.get(url).json();
     } catch {
@@ -18,7 +18,7 @@ export class GenerateCommand implements ICommand {
     }
   }
 
-  private async write(count: number, filePath: string): Promise<void> {
+  private async _write(count: number, filePath: string): Promise<void> {
     const tsvOfferGenerator = new TSVOfferGenerator(this._mockData);
     const tsvFileWriter = new TSVFileWriter(filePath);
 
@@ -44,8 +44,8 @@ export class GenerateCommand implements ICommand {
     const [count, filePath, url] = params;
 
     try {
-      await this.load(url);
-      await this.write(Number(count), filePath);
+      await this._load(url);
+      await this._write(Number(count), filePath);
       console.info(chalk.green(`File ${filePath} was created!`));
     } catch (err: unknown) {
       console.error(chalk.green('Can\t generate data'));

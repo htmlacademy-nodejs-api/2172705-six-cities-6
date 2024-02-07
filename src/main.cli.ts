@@ -9,7 +9,7 @@ import {
 } from './apps/cli/index.js';
 import { createUserContainer } from './modules/user/index.js';
 import { createOfferContainer } from './modules/offer/index.js';
-import { Interface } from './shared/const/index.js';
+import { ComponentInterface } from './shared/const/index.js';
 import { GenerateCommand } from './apps/cli/command/generate.command.js';
 
 async function bootstrap() {
@@ -19,12 +19,12 @@ async function bootstrap() {
     createOfferContainer(),
   );
 
-  const cliApp = container.get<CLIApp>(Interface.ICLIApp);
+  const cliApp = container.get<CLIApp>(ComponentInterface.ICLIApp);
   const commandInstances: ICommand[] = [
     new HelpCommand(),
     new VersionCommand(),
     new GenerateCommand(),
-    container.get<ICommand>(Interface.IImportCommand),
+    container.get<ICommand>(ComponentInterface.IImportCommand),
   ];
 
   cliApp.registerCommands(commandInstances);

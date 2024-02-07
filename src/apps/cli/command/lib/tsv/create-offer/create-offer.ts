@@ -1,7 +1,9 @@
-import { Facility, HousingType, UserType } from '../../../../../../shared/const/index.js';
-import { TLocation, TOffer, TUser } from '../../../../../../shared/types/index.js';
+import { EFacility, EHousingType, EUserType } from '../../../../../../shared/const/index.js';
+import type { IOffer } from '../../../../../../shared/interfaces/index.js';
+import type { TLocation } from '../../../../../../shared/types/index.js';
+import type { IUser } from '../../../../../../shared/interfaces/user.interface.js';
 
-const getAuthorData = (data: string): TUser => {
+const getAuthorData = (data: string): IUser => {
   const parsedData = data.split(';');
   const [firstname, email, avatar, type] = parsedData;
 
@@ -9,7 +11,7 @@ const getAuthorData = (data: string): TUser => {
     firstname,
     email,
     avatar,
-    type: type as UserType,
+    type: type as EUserType,
   };
 };
 
@@ -23,7 +25,7 @@ const getLocationData = (data: string): TLocation => {
   };
 };
 
-export const createOffer = (tsvRecord: string): TOffer => {
+export const createOffer = (tsvRecord: string): IOffer => {
   const [
     title,
     description,
@@ -54,11 +56,11 @@ export const createOffer = (tsvRecord: string): TOffer => {
     isPremium: isPremium === 'true',
     isFavorite: isFavorite === 'true',
     rating: Number(rating),
-    housingType: housingType as HousingType,
+    housingType: housingType as EHousingType,
     roomsCount: Number(roomsCount),
     guestsCount: Number(guestsCount),
     cost: Number(cost),
-    facilities: facilities.split(';') as Facility[],
+    facilities: facilities.split(';') as EFacility[],
     author: getAuthorData(author),
     commentsCount: Number(commentsCount),
     location: getLocationData(location),

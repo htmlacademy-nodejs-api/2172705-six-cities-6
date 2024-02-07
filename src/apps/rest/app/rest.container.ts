@@ -5,7 +5,7 @@ import {
   IDatabaseClient,
   MongoDatabaseClient
 } from '../../../shared/lib/index.js';
-import { Interface } from '../../../shared/const/index.js';
+import { ComponentInterface } from '../../../shared/const/index.js';
 import {
   IRESTConfig,
   IRESTSchema,
@@ -16,10 +16,10 @@ import { RESTApp } from './rest.app.js';
 export const createRESTAppContainer = () => {
   const container = new Container();
 
-  container.bind<RESTApp>(Interface.IRESTApp).to(RESTApp).inSingletonScope();
-  container.bind<ILogger>(Interface.ILogger).to(PinoLogger).inSingletonScope();
-  container.bind<IRESTConfig<IRESTSchema>>(Interface.IRESTConfig).to(RESTConfig).inSingletonScope();
-  container.bind<IDatabaseClient>(Interface.IDatabaseClient).to(MongoDatabaseClient).inSingletonScope();
+  container.bind<RESTApp>(ComponentInterface.IRESTApp).to(RESTApp).inSingletonScope();
+  container.bind<ILogger>(ComponentInterface.ILogger).to(PinoLogger).inSingletonScope();
+  container.bind<IRESTConfig<IRESTSchema>>(ComponentInterface.IRESTConfig).to(RESTConfig).inSingletonScope();
+  container.bind<IDatabaseClient>(ComponentInterface.IDatabaseClient).to(MongoDatabaseClient).inSingletonScope();
 
   return container;
 };

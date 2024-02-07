@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import { inject, injectable } from 'inversify';
 import { getErrorMessage, getMongoConnectionURL } from '../../../shared/lib/index.js';
 import type { IDatabaseClient, ILogger } from '../../../shared/lib/index.js';
-import { TOffer } from '../../../shared/types/index.js';
-import { Interface } from '../../../shared/const/index.js';
+import type { IOffer } from '../../../shared/interfaces/index.js';
+import { ComponentInterface } from '../../../shared/const/index.js';
 import type { IUserService } from '../../../modules/user/index.js';
 import type { IOfferService } from '../../../modules/offer/index.js';
 import { TSVFileReader, createOffer } from './lib/index.js';
@@ -17,16 +17,16 @@ export class ImportCommand implements ICommand {
   private readonly _name: string = '--import';
 
   constructor(
-    @inject(Interface.ILogger) private readonly _logger: ILogger,
-    @inject(Interface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
-    @inject(Interface.IUserService) private readonly _userService: IUserService,
-    @inject(Interface.IOfferService) private readonly _offerService: IOfferService,
+    @inject(ComponentInterface.ILogger) private readonly _logger: ILogger,
+    @inject(ComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
+    @inject(ComponentInterface.IUserService) private readonly _userService: IUserService,
+    @inject(ComponentInterface.IOfferService) private readonly _offerService: IOfferService,
   ) {
-    this.onRecordImport = this.onRecordImport.bind(this);
-    this.onImportComplete = this.onImportComplete.bind(this);
+    this._onRecordImport = this._onRecordImport.bind(this);
+    this._onImportComplete = this._onImportComplete.bind(this);
   }
 
-  private async saveOffer(offer: TOffer): Promise<void> {
+  private async _saveOffer(offer: IOffer): Promise<void> {
     const user = await this._userService.findOrCreate(
       { ...offer.author, password: MOCK_PASSWORD },
       MOCK_SALT
@@ -52,14 +52,13 @@ export class ImportCommand implements ICommand {
     });
   }
 
-  private async onRecordImport(record: string, resolve: () => void): Promise<void> {
+  private async _onRecordImport(record: string, resolve: () => void): Promise<void> {
     const offer = createOffer(record);
-    await this.saveOffer(offer);
+    await this._saveOffer(offer);
     resolve();
   }
 
-  // TODO: у всех приватных методов добавить "_"
-  private onImportComplete(count: number): void {
+  private _onImportComplete(count: number): void {
     this._logger.info(`${count} records imported.`);
     this._dbClient.disconnect();
   }
@@ -75,8 +74,8 @@ export class ImportCommand implements ICommand {
     await this._dbClient.connect(mongoConnectionUrl);
 
     const tsvReader = new TSVFileReader(filePath);
-    tsvReader.on('readed', this.onRecordImport);
-    tsvReader.on('end', this.onImportComplete);
+    tsvReader.on('readed', this._onRecordImport);
+    tsvReader.on('end', this._onImportComplete);
 
     try {
       await tsvReader.read();
