@@ -16,7 +16,7 @@
     "compile": "tsc --project tsconfig.json",
     "clean": "rimraf dist",
     "ts": "node --loader ts-node/esm",
-    "mock:server": "json-server ./src/cli/mock/server-data.mock.json --watch --port 3001"
+    "mock:server": "json-server ./src/apps/cli/mock/server-data.mock.json --watch --port 3001"
   },
   "dependencies": {
     "@typegoose/typegoose": "11.5.0",
