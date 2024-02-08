@@ -11,12 +11,13 @@ import {
   ERooms,
   EGuests,
   ECost,
-  EFacility,
 } from '../../shared/const/index.js';
 import type { TLocation } from '../../shared/types/index.js';
 import type { IOffer } from '../../shared/interfaces/index.js';
 import { UserEntity } from '../user/user.model.js';
 import { EDescription, ETitle } from './const/index.js';
+import { FacilityEntity } from '../facility/facility.model.js';
+import { FacilityService } from '../facility/facility.service.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -28,7 +29,7 @@ export interface OfferEntity extends defaultClasses.Base {}
   },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export class OfferEntity implements Omit<IOffer, 'author'> {
+export class OfferEntity implements Omit<IOffer, 'author' | 'facilities'> {
   @prop({
     required: true,
     trim: true,
@@ -72,7 +73,7 @@ export class OfferEntity implements Omit<IOffer, 'author'> {
 
   @prop({
     required: true,
-    type: () => String,
+    type: String,
     enum: EHousingType,
   })
   public housingType: EHousingType;
@@ -98,20 +99,7 @@ export class OfferEntity implements Omit<IOffer, 'author'> {
   })
   public cost: number;
 
-  @prop({
-    required: true,
-    type: () => [String],
-    enum: EFacility,
-  })
-  public facilities: EFacility[];
-
-  @prop({
-    required: true,
-    ref: UserEntity,
-  })
-  public authorId: Ref<UserEntity>;
-
-  @prop({ required: true })
+  @prop({ required: true, type: Object })
   public location: TLocation;
 
   @prop({
@@ -119,6 +107,21 @@ export class OfferEntity implements Omit<IOffer, 'author'> {
     default: 0,
   })
   public commentsCount: number;
+
+  @prop({
+    required: true,
+    ref: UserEntity,
+    _id: false
+  })
+  public authorId: Ref<UserEntity>;
+
+  @prop({
+    required: true,
+    ref: FacilityEntity,
+    default: [],
+    _id: false
+  })
+  public facilityIds: Ref<FacilityService>[];
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

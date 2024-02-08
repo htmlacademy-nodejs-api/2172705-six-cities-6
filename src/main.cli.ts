@@ -9,6 +9,7 @@ import {
 } from './apps/cli/index.js';
 import { createUserContainer } from './modules/user/index.js';
 import { createOfferContainer } from './modules/offer/index.js';
+import { createFacilityContainer } from './modules/facility/index.js';
 import { EComponentInterface } from './shared/const/index.js';
 import { GenerateCommand } from './apps/cli/command/generate.command.js';
 
@@ -17,6 +18,7 @@ async function bootstrap() {
     createCLIAppContainer(),
     createUserContainer(),
     createOfferContainer(),
+    createFacilityContainer(),
   );
 
   const cliApp = container.get<CLIApp>(EComponentInterface.ICLIApp);

@@ -45,15 +45,15 @@ export class UserEntity implements IUser {
 
   @prop({
     required: true,
-    trim: true,
     unique: true,
+    trim: true,
     match: [EMAIL_REGEXP, 'Email is incorrect'],
   })
   public email: string;
 
   @prop({
     required: true,
-    type: () => String,
+    type: String,
     enum: EUserType,
   })
   public type: EUserType;

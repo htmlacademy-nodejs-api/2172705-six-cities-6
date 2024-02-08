@@ -5,8 +5,10 @@ export const EComponentInterface = {
   IConfig: Symbol.for('IConfig'),
   ILogger: Symbol.for('ILogger'),
   IDatabaseClient: Symbol.for('IDatabaseClient'),
-  IUserService: Symbol.for('IUserService'),
   IUserModel: Symbol.for('IUserModel'),
-  IOfferService: Symbol.for('IOfferService'),
+  IUserService: Symbol.for('IUserService'),
   IOfferModel: Symbol.for('IOfferModel'),
+  IOfferService: Symbol.for('IOfferService'),
+  IFacilityModel: Symbol.for('IFacilityModel'),
+  IFacilityService: Symbol.for('IFacilityService'),
 } as const;

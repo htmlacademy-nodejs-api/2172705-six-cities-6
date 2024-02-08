@@ -1,4 +1,4 @@
-import { EFacility, EHousingType } from '../../shared/const/index.js';
+import { EHousingType } from '../../shared/const/index.js';
 import type { TLocation } from '../../shared/types/index.js';
 
 export class OfferDTO {
@@ -15,7 +15,7 @@ export class OfferDTO {
   public roomsCount: number;
   public guestsCount: number;
   public cost: number;
-  public facilities: EFacility[];
-  public authorId: string;
   public location: TLocation;
+  public authorId: string;
+  public facilityIds: string[];
 }

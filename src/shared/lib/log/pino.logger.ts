@@ -32,7 +32,7 @@ export class PinoLogger implements ILogger {
     });
 
     this._logger = pino({}, fileTransport);
-    this._logger.info('Logger has been created');
+    this._logger.info('Logger was created');
   }
 
   public info(message: string, ...args: unknown[]): void {

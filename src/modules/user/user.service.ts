@@ -18,7 +18,7 @@ export class UserService implements IUserService {
     user.setPassword(dto.password, salt);
 
     const response = await this._userModel.create(user);
-    this._logger.info(`New user ${user.email} created`);
+    this._logger.info(`New user ${user.email} was created`);
 
     return response;
   }

@@ -15,12 +15,12 @@ export class OfferService implements IOfferService {
 
   public async create(dto: OfferDTO): Promise<DocumentType<OfferEntity>> {
     const response = await this._offerModel.create(dto);
-    this._logger.info(`New offer "${dto.title}" created`);
+    this._logger.info(`New offer "${dto.title}" was created`);
 
     return response;
   }
 
-  public findById(id: string): Promise<DocumentType<OfferEntity> | null> {
+  public async findById(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this._offerModel.findById(id);
   }
 }

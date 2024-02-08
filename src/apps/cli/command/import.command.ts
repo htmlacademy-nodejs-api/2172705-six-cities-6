@@ -7,8 +7,9 @@ import type { IConfig, IRESTSchema } from '../../../shared/config/index.js';
 import { EComponentInterface } from '../../../shared/const/index.js';
 import type { IUserService } from '../../../modules/user/index.js';
 import type { IOfferService } from '../../../modules/offer/index.js';
+import type { IFacilityService } from '../../../modules/facility/index.js';
 import { TSVFileReader, createOffer } from './lib/index.js';
-import { ICommand } from './command.interface.js';
+import type { ICommand } from './command.interface.js';
 
 const MOCK_PASSWORD = '123456';
 
@@ -22,16 +23,24 @@ export class ImportCommand implements ICommand {
     @inject(EComponentInterface.IDatabaseClient) private readonly _dbClient: IDatabaseClient,
     @inject(EComponentInterface.IUserService) private readonly _userService: IUserService,
     @inject(EComponentInterface.IOfferService) private readonly _offerService: IOfferService,
+    @inject(EComponentInterface.IFacilityService) private readonly _facilityService: IFacilityService,
   ) {
     this._onRecordImport = this._onRecordImport.bind(this);
     this._onImportComplete = this._onImportComplete.bind(this);
   }
 
   private async _saveOffer(offer: IOffer): Promise<void> {
+    const facilityIds: string[] = [];
+
     const user = await this._userService.findOrCreate(
       { ...offer.author, password: MOCK_PASSWORD },
       this._config.get('SALT')
     );
+
+    for await (const facility of offer.facilities) {
+      const response = await this._facilityService.findOrCreate({ name: facility });
+      facilityIds.push(response.id);
+    }
 
     await this._offerService.create({
       title: offer.title,
@@ -47,9 +56,9 @@ export class ImportCommand implements ICommand {
       roomsCount: offer.roomsCount,
       guestsCount: offer.guestsCount,
       cost: offer.cost,
-      facilities: offer.facilities,
+      location: offer.location,
       authorId: user.id,
-      location: offer.location
+      facilityIds
     });
   }
 
