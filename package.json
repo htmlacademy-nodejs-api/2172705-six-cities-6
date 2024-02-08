@@ -9,14 +9,17 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.rest.js",
+    "start:prod": "npm run build && node ./dist/main.rest.js",
     "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start:cli": "npm run ts ./src/main.cli.ts --",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc --project tsconfig.json",
     "clean": "rimraf dist",
     "ts": "node --loader ts-node/esm",
-    "mock:server": "json-server ./src/apps/cli/mock/server-data.mock.json --watch --port 3001"
+    "mock:server": "json-server ./src/apps/cli/mock/server-data.mock.json --watch --port 3001",
+    "mock:generate": "npm run start:cli -- --generate 10 ./src/apps/cli/mock/data.mock.tsv http://localhost:3001/api",
+    "mock:import": "npm run start:cli -- --import ./src/apps/cli/mock/data.mock.tsv"
   },
   "dependencies": {
     "@typegoose/typegoose": "11.5.0",
