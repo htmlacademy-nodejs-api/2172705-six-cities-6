@@ -1,3 +1,4 @@
+export { ECity } from './city.enum.js';
 export { ECost } from './cost.enum.js';
 export { EFacility } from './facility.enum.js';
 export { EGuests } from './guests.enum.js';

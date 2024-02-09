@@ -14,10 +14,10 @@ import {
 } from '../../shared/const/index.js';
 import type { TLocation } from '../../shared/types/index.js';
 import type { IOffer } from '../../shared/interfaces/index.js';
-import { UserEntity } from '../user/user.model.js';
+import { FacilityEntity } from '../facility/index.js';
+import { UserEntity } from '../user/index.js';
+import { CityEntity } from '../city/index.js';
 import { EDescription, ETitle } from './const/index.js';
-import { FacilityEntity } from '../facility/facility.model.js';
-import { FacilityService } from '../facility/facility.service.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -29,7 +29,7 @@ export interface OfferEntity extends defaultClasses.Base {}
   },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export class OfferEntity implements Omit<IOffer, 'author' | 'facilities'> {
+export class OfferEntity implements Omit<IOffer, 'author' | 'facilities' | 'city'> {
   @prop({
     required: true,
     trim: true,
@@ -50,12 +50,12 @@ export class OfferEntity implements Omit<IOffer, 'author' | 'facilities'> {
   public date: string;
 
   @prop({ required: true })
-  public city: string;
-
-  @prop({ required: true })
   public previewImage: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    type: [String],
+  })
   public imagesList: string[];
 
   @prop({ required: true })
@@ -99,7 +99,7 @@ export class OfferEntity implements Omit<IOffer, 'author' | 'facilities'> {
   })
   public cost: number;
 
-  @prop({ required: true, type: Object })
+  @prop({ required: true })
   public location: TLocation;
 
   @prop({
@@ -110,18 +110,22 @@ export class OfferEntity implements Omit<IOffer, 'author' | 'facilities'> {
 
   @prop({
     required: true,
+    ref: FacilityEntity,
+    default: [],
+  })
+  public facilityIds: Ref<FacilityEntity>[];
+
+  @prop({
+    required: true,
     ref: UserEntity,
-    _id: false
   })
   public authorId: Ref<UserEntity>;
 
   @prop({
     required: true,
-    ref: FacilityEntity,
-    default: [],
-    _id: false
+    ref: CityEntity,
   })
-  public facilityIds: Ref<FacilityService>[];
+  public cityId: Ref<CityEntity>;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

@@ -11,4 +11,6 @@ export const EComponentInterface = {
   IOfferService: Symbol.for('IOfferService'),
   IFacilityModel: Symbol.for('IFacilityModel'),
   IFacilityService: Symbol.for('IFacilityService'),
+  ICityModel: Symbol.for('ICityModel'),
+  ICityService: Symbol.for('ICityService'),
 } as const;

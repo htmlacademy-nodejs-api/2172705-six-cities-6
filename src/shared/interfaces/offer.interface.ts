@@ -1,4 +1,4 @@
-import { EFacility, EHousingType } from '../const/index.js';
+import { ECity, EFacility, EHousingType } from '../const/index.js';
 import type { TLocation } from '../types/location.type.js';
 import type { IUser } from '../interfaces/user.interface.js';
 
@@ -6,7 +6,7 @@ export interface IOffer {
   title: string;
   description: string;
   date: string;
-  city: string;
+  city: keyof typeof ECity;
   previewImage: string;
   imagesList: string[];
   isPremium: boolean;

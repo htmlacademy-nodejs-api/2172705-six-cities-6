@@ -7,11 +7,12 @@ import {
   VersionCommand,
   createCLIAppContainer,
 } from './apps/cli/index.js';
+import { GenerateCommand } from './apps/cli/command/generate.command.js';
 import { createUserContainer } from './modules/user/index.js';
 import { createOfferContainer } from './modules/offer/index.js';
 import { createFacilityContainer } from './modules/facility/index.js';
+import { createCityContainer } from './modules/city/city.container.js';
 import { EComponentInterface } from './shared/const/index.js';
-import { GenerateCommand } from './apps/cli/command/generate.command.js';
 
 async function bootstrap() {
   const container = Container.merge(
@@ -19,6 +20,7 @@ async function bootstrap() {
     createUserContainer(),
     createOfferContainer(),
     createFacilityContainer(),
+    createCityContainer(),
   );
 
   const cliApp = container.get<CLIApp>(EComponentInterface.ICLIApp);

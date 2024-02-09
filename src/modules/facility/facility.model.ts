@@ -5,7 +5,7 @@ import {
   prop,
 } from '@typegoose/typegoose';
 import { EFacility } from '../../shared/const/index.js';
-import { IFacility } from '../../shared/interfaces/index.js';
+import type { IFacility } from '../../shared/interfaces/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface FacilityEntity extends defaultClasses.Base {}

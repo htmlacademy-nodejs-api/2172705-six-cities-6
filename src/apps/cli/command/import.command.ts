@@ -4,10 +4,11 @@ import { getErrorMessage, getMongoConnectionURL } from '../../../shared/lib/inde
 import type { IDatabaseClient, ILogger } from '../../../shared/lib/index.js';
 import type { IOffer } from '../../../shared/interfaces/index.js';
 import type { IConfig, IRESTSchema } from '../../../shared/config/index.js';
-import { EComponentInterface } from '../../../shared/const/index.js';
+import { ECity, EComponentInterface } from '../../../shared/const/index.js';
 import type { IUserService } from '../../../modules/user/index.js';
 import type { IOfferService } from '../../../modules/offer/index.js';
 import type { IFacilityService } from '../../../modules/facility/index.js';
+import type{ ICityService } from '../../../modules/city/index.js';
 import { TSVFileReader, createOffer } from './lib/index.js';
 import type { ICommand } from './command.interface.js';
 
@@ -24,6 +25,7 @@ export class ImportCommand implements ICommand {
     @inject(EComponentInterface.IUserService) private readonly _userService: IUserService,
     @inject(EComponentInterface.IOfferService) private readonly _offerService: IOfferService,
     @inject(EComponentInterface.IFacilityService) private readonly _facilityService: IFacilityService,
+    @inject(EComponentInterface.ICityService) private readonly _cityService: ICityService,
   ) {
     this._onRecordImport = this._onRecordImport.bind(this);
     this._onImportComplete = this._onImportComplete.bind(this);
@@ -32,21 +34,25 @@ export class ImportCommand implements ICommand {
   private async _saveOffer(offer: IOffer): Promise<void> {
     const facilityIds: string[] = [];
 
-    const user = await this._userService.findOrCreate(
-      { ...offer.author, password: MOCK_PASSWORD },
-      this._config.get('SALT')
-    );
-
     for await (const facility of offer.facilities) {
       const response = await this._facilityService.findOrCreate({ name: facility });
       facilityIds.push(response.id);
     }
 
+    const user = await this._userService.findOrCreate(
+      { ...offer.author, password: MOCK_PASSWORD },
+      this._config.get('SALT')
+    );
+
+    const city = await this._cityService.findOrCreate({
+      name: offer.city,
+      location: ECity[offer.city].location,
+    });
+
     await this._offerService.create({
       title: offer.title,
       description: offer.description,
       date: offer.date,
-      city: offer.city,
       previewImage: offer.previewImage,
       imagesList: offer.imagesList,
       isPremium: offer.isPremium,
@@ -57,8 +63,9 @@ export class ImportCommand implements ICommand {
       guestsCount: offer.guestsCount,
       cost: offer.cost,
       location: offer.location,
+      facilityIds,
       authorId: user.id,
-      facilityIds
+      cityId: city.id,
     });
   }
 
