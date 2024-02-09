@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import * as Mongoose from 'mongoose';
 import { setTimeout } from 'node:timers/promises';
-import { Interface } from '../../const/index.js';
-import { ILogger } from '../log/index.js';
+import { EComponentInterface } from '../../const/index.js';
+import type { ILogger } from '../log/index.js';
 import { IDatabaseClient } from './database-client.interface.js';
 
 const RETRY_COUNT = 5;
@@ -13,7 +13,7 @@ export class MongoDatabaseClient implements IDatabaseClient {
   private _mongoose: typeof Mongoose;
   private _isConnected: boolean = false;
 
-  constructor(@inject(Interface.ILogger) private readonly _logger: ILogger) {}
+  constructor(@inject(EComponentInterface.ILogger) private readonly _logger: ILogger) {}
 
   public async connect(uri: string, options?: Mongoose.ConnectOptions): Promise<void> {
     if (this._isConnected) {

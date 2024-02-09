@@ -4,14 +4,13 @@ import {
   getModelForClass,
   modelOptions,
 } from '@typegoose/typegoose';
-import { TUser } from '@/shared/types/index.js';
+import type { IUser } from '../../shared/interfaces/user.interface.js';
 import {
   EMAIL_REGEXP,
-  UserType,
-  Password,
-  Firstname
-} from '@/shared/const/index.js';
-import { createSHA256 } from '@/shared/lib/index.js';
+  EUserType,
+} from '../../shared/const/index.js';
+import { createSHA256 } from '../../shared/lib/index.js';
+import { EFirstname } from './const/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
@@ -23,38 +22,39 @@ export interface UserEntity extends defaultClasses.Base {}
   },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export class UserEntity implements TUser {
+export class UserEntity implements IUser {
   @prop({
     required: true,
     default: '',
     trim: true,
-    minlength: [Password.Min, 'Min length for password is 6'],
-    maxlength: [Password.Max, 'Max length for password is 12'],
+    alias: '_password'
   })
+  private password?: string;
+
   private _password?: string;
 
   @prop({
     required: true,
     trim: true,
-    minlength: [Firstname.Min, 'Min length for firstname is 1'],
-    maxlength: [Firstname.Max, 'Max length for firstname is 15'],
+    minlength: [EFirstname.Min, 'Min length for firstname is 1'],
+    maxlength: [EFirstname.Max, 'Max length for firstname is 15'],
   })
   public firstname: string;
 
   @prop({
     required: true,
-    trim: true,
     unique: true,
+    trim: true,
     match: [EMAIL_REGEXP, 'Email is incorrect'],
   })
   public email: string;
 
   @prop({
     required: true,
-    type: () => String,
-    enum: UserType,
+    type: String,
+    enum: EUserType,
   })
-  public type: UserType;
+  public type: EUserType;
 
   @prop({
     required: false,
@@ -62,7 +62,7 @@ export class UserEntity implements TUser {
   })
   public avatar: string;
 
-  constructor(userData: TUser) {
+  constructor(userData: IUser) {
     this.firstname = userData.firstname;
     this.email = userData.email;
     this.type = userData.type;

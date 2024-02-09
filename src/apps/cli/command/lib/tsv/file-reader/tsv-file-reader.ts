@@ -1,36 +1,37 @@
 import { createReadStream } from 'node:fs';
 import EventEmitter from 'node:events';
-import * as readline from 'node:readline/promises';
-import { ITSVFileReader } from './tsv-file-reader.interface.js';
+import { IFileReader } from './file-reader.interface.js';
 
-export class TSVFileReader extends EventEmitter implements ITSVFileReader {
+export class TSVFileReader extends EventEmitter implements IFileReader {
   constructor(private readonly _filePath: string) {
     super();
   }
 
   public async read(): Promise<void> {
-    const rl = readline.createInterface({
-      input: createReadStream(this._filePath, {
-        encoding: 'utf-8',
-        autoClose: true,
-      }),
+    const readStream = createReadStream(this._filePath, {
+      encoding: 'utf-8',
     });
 
-    //NOTE: первая запись - это хедер с именами полей
-    let readedRecordsCount = -1;
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = -1;
 
-    rl.on('line', async (line) => {
-      readedRecordsCount++;
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
 
-      if (readedRecordsCount !== 0) {
-        await new Promise((resolve) => {
-          this.emit('readed', line, resolve);
-        });
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        if (importedRowCount !== 0) {
+          await new Promise((resolve) => {
+            this.emit('readed', completeRow, resolve);
+          });
+        }
       }
-    });
+    }
 
-    rl.on('close', () => {
-      this.emit('end', readedRecordsCount);
-    });
+    this.emit('end', importedRowCount);
   }
 }

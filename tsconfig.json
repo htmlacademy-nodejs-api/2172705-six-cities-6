@@ -27,13 +27,6 @@
     "lib": [
       "ESNext"
     ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*",
-        "mocks/*",
-      ]
-    },
   },
   "include": [
     "src/**/*.ts"
@@ -41,5 +34,10 @@
   "exclude": [
     "node_modules",
     "**/*.test.ts"
-  ]
+  ],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+  }
 }

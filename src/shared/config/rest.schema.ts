@@ -1,6 +1,6 @@
 import convict from 'convict';
 import formats from 'convict-format-with-validator';
-import { IRESTSchema } from './interface/index.js';
+import type { IRESTSchema } from './interfaces/index.js';
 
 convict.addFormats(formats);
 

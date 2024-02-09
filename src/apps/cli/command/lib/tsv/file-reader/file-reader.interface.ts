@@ -1,3 +1,3 @@
-export interface ITSVFileReader {
+export interface IFileReader {
   read(filePath?: string): void;
 }

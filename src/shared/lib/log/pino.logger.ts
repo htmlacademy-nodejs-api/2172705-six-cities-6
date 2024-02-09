@@ -9,7 +9,7 @@ export class PinoLogger implements ILogger {
   private readonly _logger: PinoInstance;
 
   constructor() {
-    const moduleDirPath = getCurrentModuleDirPath();
+    const moduleDirPath = getCurrentModuleDirPath(import.meta.url);
     const logFilePath = 'logs/rest.log';
     const destination = resolve(moduleDirPath, '../../../../', logFilePath);
 
@@ -32,7 +32,7 @@ export class PinoLogger implements ILogger {
     });
 
     this._logger = pino({}, fileTransport);
-    this._logger.info('Logger has been created');
+    this._logger.info('Logger was created');
   }
 
   public info(message: string, ...args: unknown[]): void {
