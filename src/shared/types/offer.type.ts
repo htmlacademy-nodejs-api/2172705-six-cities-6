@@ -1,7 +1,6 @@
+import { Facility, HousingType } from '../const/index.js';
 import { TLocation } from './location.type.js';
-import { TFacilities } from './facilities.type.js';
 import { TUser } from './user.type.js';
-import { THousingType } from './housing-type.type.js';
 
 export type TOffer = {
   title: string;
@@ -13,12 +12,12 @@ export type TOffer = {
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
-  housingType: THousingType;
+  housingType: HousingType;
   roomsCount: number;
   guestsCount: number;
   cost: number;
-  facilities: TFacilities[];
+  facilities: Facility[];
   author: TUser;
-  commentsCount: number;
   location: TLocation;
+  commentsCount: number;
 };

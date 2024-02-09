@@ -1,19 +1,16 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import {
-  IRESTConfig,
-  IRESTSchema,
-  Interface,
-  RESTApp,
-  RESTConfig,
-} from './apps/rest/index.js';
-import { ILogger, PinoLogger } from './shared/lib/index.js';
+import { RESTApp, createRESTAppContainer } from './apps/rest/index.js';
+import { createOfferContainer } from './modules/offer/offer.container.js';
+import { createUserContainer } from './modules/user/index.js';
+import { Interface } from './shared/const/index.js';
 
 function bootstrap() {
-  const container = new Container();
-  container.bind<RESTApp>(Interface.IRESTApp).to(RESTApp).inSingletonScope();
-  container.bind<ILogger>(Interface.ILogger).to(PinoLogger).inSingletonScope();
-  container.bind<IRESTConfig<IRESTSchema>>(Interface.IRESTConfig).to(RESTConfig).inSingletonScope();
+  const container = Container.merge(
+    createRESTAppContainer(),
+    createUserContainer(),
+    createOfferContainer(),
+  );
 
   const restApp = container.get<RESTApp>(Interface.IRESTApp);
   restApp.init();

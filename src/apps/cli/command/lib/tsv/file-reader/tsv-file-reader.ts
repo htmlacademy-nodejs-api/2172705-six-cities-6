@@ -16,14 +16,16 @@ export class TSVFileReader extends EventEmitter implements ITSVFileReader {
       }),
     });
 
-    //NOTE: the first record is a header with field names that should be skipped
+    //NOTE: первая запись - это хедер с именами полей
     let readedRecordsCount = -1;
 
-    rl.on('line', (line) => {
+    rl.on('line', async (line) => {
       readedRecordsCount++;
 
       if (readedRecordsCount !== 0) {
-        this.emit('readed', line);
+        await new Promise((resolve) => {
+          this.emit('readed', line, resolve);
+        });
       }
     });
 
