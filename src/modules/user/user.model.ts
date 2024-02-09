@@ -10,7 +10,7 @@ import {
   EUserType,
 } from '../../shared/const/index.js';
 import { createSHA256 } from '../../shared/lib/index.js';
-import { EFirstname, EPassword } from './const/index.js';
+import { EFirstname } from './const/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
@@ -27,9 +27,6 @@ export class UserEntity implements IUser {
     required: true,
     trim: true,
     alias: '_password'
-    // TODO: решить вопрос с валидацией
-    // minlength: [EPassword.Min, 'Min length for password is 6'],
-    // maxlength: [EPassword.Max, 'Max length for password is 12'],
   })
   private password?: string;
 

@@ -2,9 +2,10 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { inject, injectable } from 'inversify';
 import type { ILogger } from '../../shared/lib/index.js';
 import { EComponentInterface } from '../../shared/const/index.js';
-import { IUserService } from './user.service.interface.js';
+import type { IUserService } from './user.service.interface.js';
 import { UserDTO } from './user.dto.js';
 import { UserEntity } from './user.model.js';
+import { EPassword } from './const/password.enum.js';
 
 @injectable()
 export class UserService implements IUserService {
@@ -14,6 +15,22 @@ export class UserService implements IUserService {
   ) {}
 
   public async create(dto: UserDTO, salt: string): Promise<DocumentType<UserEntity>> {
+    if (dto.password.length < EPassword.Min) {
+      const errMessage = `Min length for password is ${EPassword.Min}`;
+      const errInstance = new Error(errMessage);
+      this._logger.error(errMessage, errInstance);
+
+      throw errInstance;
+    }
+
+    if (dto.password.length > EPassword.Max) {
+      const errMessage = `Max length for password is ${EPassword.Max}`;
+      const errInstance = new Error(errMessage);
+      this._logger.error(errMessage, errInstance);
+
+      throw errInstance;
+    }
+
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 
