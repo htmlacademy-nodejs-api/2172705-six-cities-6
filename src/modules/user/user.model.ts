@@ -10,7 +10,7 @@ import {
   EUserType,
 } from '../../shared/const/index.js';
 import { createSHA256 } from '../../shared/lib/index.js';
-import { EFirstname } from './const/index.js';
+import { EFirstname, EPassword } from './const/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base {}
@@ -25,7 +25,6 @@ export interface UserEntity extends defaultClasses.Base {}
 export class UserEntity implements IUser {
   @prop({
     required: true,
-    default: '',
     trim: true,
     alias: '_password'
   })
@@ -51,6 +50,7 @@ export class UserEntity implements IUser {
 
   @prop({
     required: true,
+    trim: true,
     type: String,
     enum: EUserType,
   })
@@ -58,6 +58,7 @@ export class UserEntity implements IUser {
 
   @prop({
     required: false,
+    trim: true,
     default: 'default-avatar.jpg',
   })
   public avatar: string;
@@ -70,6 +71,14 @@ export class UserEntity implements IUser {
   }
 
   public setPassword(password: string, salt: string): void {
+    if (password.length < EPassword.Min) {
+      throw new Error(`Min length for password is ${EPassword.Min}`);
+    }
+
+    if (password.length > EPassword.Max) {
+      throw new Error(`Max length for password is ${EPassword.Max}`);
+    }
+
     this._password = createSHA256(password, salt);
   }
 

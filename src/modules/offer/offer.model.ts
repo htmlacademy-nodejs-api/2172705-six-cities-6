@@ -46,10 +46,16 @@ export class OfferEntity implements Omit<IOffer, 'author' | 'facilities' | 'city
   })
   public description: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    trim: true
+  })
   public date: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    trim: true
+  })
   public previewImage: string;
 
   @prop({
@@ -73,6 +79,7 @@ export class OfferEntity implements Omit<IOffer, 'author' | 'facilities' | 'city
 
   @prop({
     required: true,
+    trim: true,
     type: String,
     enum: EHousingType,
   })
