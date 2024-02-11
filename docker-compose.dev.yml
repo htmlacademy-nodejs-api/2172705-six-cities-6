@@ -13,7 +13,7 @@ services:
     ports:
       - ${SIX_CITIES_DB_PORT}:27017
     volumes:
-      - six-cities_data:/data/mongo
+      - six-cities_data:/data/db
   mongo_express:
     image: mongo-express:1.0.2-20
     container_name: six-cities_mongo-express
