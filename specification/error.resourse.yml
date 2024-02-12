@@ -1,0 +1,44 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Ошибка"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    UnauthorizedError:
+      description: Пользователь не авторизован
+      type: object
+      properties:
+        message:
+          type: string
+          example: Пользователь не авторизован
+
+    ForbiddenError:
+      description: Ошибка доступа
+      type: object
+      properties:
+        message:
+          type: string
+          example: Ошибка доступа
+
+    NotFoundError:
+      description: Ресурс не был найден
+      type: object
+      properties:
+        message:
+          type: string
+          example: Ресурс не был найден

@@ -1,0 +1,294 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Предложение"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    CreateOfferRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Some title
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: Some description
+        previewImage:
+          type: string
+          example: preview-image.jpg
+        imagesList:
+          type: array
+          items:
+            type: string
+            minItems: 6
+            maxItems: 6
+            example:
+              [
+                some-image-1.jpg,
+                some-image-2.jpg,
+                some-image-3.jpg,
+                some-image-4.jpg,
+                some-image-5.jpg,
+                some-image-6.jpg,
+              ]
+        isPremium:
+          type: boolean
+          example: true
+        isFavorite:
+          type: boolean
+          example: false
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 3
+        housingType:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: House
+        roomsCount:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 4
+        guestsCount:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 2
+        cost:
+          type: number
+          minimum: 100
+          maximum: 100000
+          example: 1337
+        commentsCount:
+          type: number
+          example: 123
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 23.123456
+            longitude:
+              type: number
+              example: 23.123456
+        cityId:
+          type: string
+          format: uuid
+          example: 65c8b2d810890bfad966b972
+        facilityIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: uuid
+            example: 65c8b2d810890bfad966b972
+      required:
+        - title
+        - description
+        - previewImage
+        - imagesList
+        - isPremium
+        - isFavorite
+        - rating
+        - housingType
+        - roomsCount
+        - guestsCount
+        - cost
+        - commentsCount
+        - location
+        - cityId
+        - facilityIds
+        - userId
+
+    UpdateOfferRequest:
+      allOf:
+        - $ref: "#/components/schemas/CreateOfferRequest"
+      required: false
+
+    UpdatePremiumRequest:
+      type: object
+      properties:
+        status:
+          type: boolean
+          example: false
+      required:
+        - status
+
+    OfferResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 65c8b2d810890bfad966b972
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Some title
+        date:
+          type: string
+          format: date-time
+          example: 2024-02-12T14:46:14.353Z
+        previewImage:
+          type: string
+          example: preview-image.jpg
+        isPremium:
+          type: boolean
+          example: true
+        isFavorite:
+          type: boolean
+          example: false
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 3
+        housingType:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: House
+        cost:
+          type: number
+          minimum: 100
+          maximum: 100000
+          example: 1337
+        commentsCount:
+          type: number
+          example: 123
+        city:
+          $ref: "city.resourse.yml#/components/schemas/City"
+
+    OfferDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 65c8b2d810890bfad966b972
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Some title
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: Some description
+        date:
+          type: string
+          format: date-time
+          example: 2024-02-12T14:46:14.353Z
+        previewImage:
+          type: string
+          example: preview-image.jpg
+        imagesList:
+          type: array
+          items:
+            type: string
+            minItems: 6
+            maxItems: 6
+            example:
+              [
+                some-image-1.jpg,
+                some-image-2.jpg,
+                some-image-3.jpg,
+                some-image-4.jpg,
+                some-image-5.jpg,
+                some-image-6.jpg,
+              ]
+        isPremium:
+          type: boolean
+          example: true
+        isFavorite:
+          type: boolean
+          example: false
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 3
+        housingType:
+          type: string
+          enum:
+            - Apartment
+            - House
+            - Room
+            - Hotel
+          example: House
+        roomsCount:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 4
+        guestsCount:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 2
+        cost:
+          type: number
+          minimum: 100
+          maximum: 100000
+          example: 1337
+        commentsCount:
+          type: number
+          example: 123
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 23.123456
+            longitude:
+              type: number
+              example: 23.123456
+        city:
+          $ref: "city.resourse.yml#/components/schemas/City"
+        facilities:
+          type: array
+          items:
+            $ref: "facility.resourse.yml#/components/schemas/Facility"
+        user:
+          $ref: "user.resourse.yml#/components/schemas/UserResponse"
+
+  parameters:
+    offerId:
+      name: offerId
+      description: Идентификатор предложения
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 65c8b2d810890bfad966b972

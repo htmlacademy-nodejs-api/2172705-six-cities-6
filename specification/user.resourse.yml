@@ -1,0 +1,119 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Пользователь"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    CreateUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Petr Petrov
+        email:
+          type: string
+          format: email
+          example: example@somemail.com
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: qwerty123
+        type:
+          type: string
+          enum:
+            - Pro
+            - Basic
+          example: Pro
+        avatarUrl:
+          type: string
+          example: avatar.jpg
+      required:
+        - name
+        - email
+        - password
+        - type
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: example@somemail.com
+        password:
+          type: string
+          example: 123456
+      required:
+        - email
+        - password
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 65c8b2d810890bfad966b972
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Petr Petrov
+        email:
+          type: string
+          format: email
+          example: example@somemail.com
+        type:
+          type: string
+          enum:
+            - Pro
+            - Basic
+          example: Pro
+        avatarUrl:
+          type: string
+          example: avatar.jpg
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNzY3NDAzMiwiaWF0IjoxNzA3Njc0MDMyfQ.ktQj4lW-KQhkWRu9xXRG11Rj4X8qqDpsFokOUuJW3II
+
+  parameters:
+    userId:
+      name: userId
+      description: Идентификатор пользователя
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 65c8b2d810890bfad966b972
+
+    token:
+      name: X-Token
+      description: Авторизационный токен пользователя
+      in: header
+      required: true
+      schema:
+        type: string
+        example: eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTcwNzY3NDAzMiwiaWF0IjoxNzA3Njc0MDMyfQ.ktQj4lW-KQhkWRu9xXRG11Rj4X8qqDpsFokOUuJW3II

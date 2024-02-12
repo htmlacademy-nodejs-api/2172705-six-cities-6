@@ -1,0 +1,417 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурсов и маршрутов
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+servers:
+  - url: https://localhost:5000
+
+tags:
+  - name: users
+    description: Действия с пользователями
+
+  - name: offers
+    description: Действия с предложениями
+
+  - name: comments
+    description: Действия с комментариями
+
+  - name: facilities
+    description: Действия с удобствами
+
+  - name: cities
+    description: Действия с городами
+
+paths:
+  /users:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+
+      requestBody:
+        description: Данные для регистрации пользователя
+        content:
+          application/json:
+            schema:
+              $ref: "user.resourse.yml#/components/schemas/CreateUserRequest"
+        required: true
+
+      responses:
+        201:
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                $ref: "user.resourse.yml#/components/schemas/UserResponse"
+        400:
+          description: Ошибка валидации данных
+
+        403:
+          $ref: "error.resourse.yml#/components/schemas/ForbiddenError"
+
+        409:
+          description: Пользователь c таким email уже существует
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Вход в учетную запись
+
+      requestBody:
+        description: Данные для входа в учетную запись пользователя
+        content:
+          application/json:
+            schema:
+              $ref: "user.resourse.yml#/components/schemas/LoginRequest"
+        required: true
+
+      responses:
+        200:
+          description: Вход в учетную запись прошел успешно
+          content:
+            application/json:
+              schema:
+                $ref: "user.resourse.yml#/components/schemas/Token"
+
+        400:
+          description: Неверный логин или пароль
+
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Выход из учетной записи
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+
+      responses:
+        204:
+          description: Выход из учетной записи прошел успешно
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+  /users/session:
+    get:
+      tags:
+        - users
+      summary: Проверка состояния сессии
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+
+      responses:
+        200:
+          description: Пользователь авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "user.resourse.yml#/components/schemas/UserResponse"
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получение списка предложений
+      description: |-
+        Получение списка предложений, отсортированного по убыванию по дате публикации
+
+      responses:
+        200:
+          description: Список предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "offer.resourse.yml#/components/schemas/OfferResponse"
+
+    post:
+      tags:
+        - offers
+      summary: Создание нового предложения
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+
+      requestBody:
+        description: Данные для создания нового предложения
+        content:
+          application/json:
+            schema:
+              $ref: "offer.resourse.yml#/components/schemas/CreateOfferRequest"
+        required: true
+
+      responses:
+        201:
+          description: Предложение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: "offer.resourse.yml#/components/schemas/OfferDetailsResponse"
+
+        400:
+          description: Ошибка валидации данных
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получение детальной информации по предложению
+
+      parameters:
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      responses:
+        200:
+          description: Детальная информация по предложению успешно получена
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "offer.resourse.yml#/components/schemas/OfferDetailsResponse"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+    patch:
+      tags:
+        - offers
+      summary: Редактирование предложения
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      requestBody:
+        description: Данные для редактирования предложения
+        content:
+          application/json:
+            schema:
+              $ref: "offer.resourse.yml#/components/schemas/UpdateOfferRequest"
+        required: true
+
+      responses:
+        200:
+          description: Предложение успешно отредактировано
+          content:
+            application/json:
+              schema:
+                $ref: "offer.resourse.yml#/components/schemas/OfferDetailsResponse"
+
+        400:
+          description: Ошибка валидации данных
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      responses:
+        204:
+          description: Предложение успешно удалено
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+  /offers/premium:
+    get:
+      tags:
+        - offers
+      summary: Получение списка премиальных предложений
+      description: |-
+        Получение списка из не более 3 премиальных предложений для определённого города,
+        отсортированных по убыванию по дате публикации
+
+      parameters:
+        - $ref: "city.resourse.yml#/components/parameters/cityId"
+
+      responses:
+        200:
+          description: Список премиальных предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "offer.resourse.yml#/components/schemas/OfferResponse"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+  /offers/favorites:
+    get:
+      tags:
+        - offers
+      summary: Получение списка избранных предложений
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+
+      responses:
+        200:
+          description: Список избранных предложений успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "offer.resourse.yml#/components/schemas/OfferResponse"
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+  /offers/{offerId}/favorites:
+    patch:
+      tags:
+        - offers
+      summary: Изменение списка избранных предложений
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      requestBody:
+        description: Данные для изменения статуса избранного
+        content:
+          application/json:
+            schema:
+              $ref: "offer.resourse.yml#/components/schemas/UpdatePremiumRequest"
+        required: true
+
+      responses:
+        200:
+          description: Изменение списка избранных предложений прошло успешно
+          content:
+            application/json:
+              schema:
+                $ref: "offer.resourse.yml#/components/schemas/OfferDetailsResponse"
+
+        400:
+          description: Ошибка валидации данных
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - comments
+      summary: Получение списка комментариев
+
+      parameters:
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      responses:
+        200:
+          description: Список комментариев успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "comment.resourse.yml#/components/schemas/CommentResponse"
+
+        404:
+          $ref: "error.resourse.yml#/components/schemas/NotFoundError"
+
+    post:
+      tags:
+        - comments
+      summary: Создание нового комментария
+
+      parameters:
+        - $ref: "user.resourse.yml#/components/parameters/token"
+        - $ref: "offer.resourse.yml#/components/parameters/offerId"
+
+      requestBody:
+        description: Данные для создания нового комментария
+        content:
+          application/json:
+            schema:
+              $ref: "comment.resourse.yml#/components/schemas/CreateCommentRequest"
+        required: true
+
+      responses:
+        201:
+          description: Комментарий успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: "comment.resourse.yml#/components/schemas/CommentResponse"
+
+        400:
+          description: Ошибка валидации данных
+
+        401:
+          $ref: "error.resourse.yml#/components/schemas/UnauthorizedError"
+
+  /facilities:
+    get:
+      tags:
+        - facilities
+      summary: Получение списка удобств
+
+      responses:
+        200:
+          description: Список удобств успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "facility.resourse.yml#/components/schemas/Facility"
+
+  /cities:
+    get:
+      tags:
+        - cities
+      summary: Получение списка городов
+
+      responses:
+        200:
+          description: Список городов успешно получен
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "city.resourse.yml#/components/schemas/City"

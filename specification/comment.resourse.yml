@@ -1,0 +1,61 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Комментарий"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    CreateCommentRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: Some comment text
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 3
+      required:
+        - text
+        - rating
+
+    CommentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 65c8b2d810890bfad966b972
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: Some comment text
+        date:
+          type: string
+          format: date-time
+          example: 2024-02-12T14:46:14.353Z
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 3
+        user:
+          $ref: "user.resourse.yml#/components/schemas/UserResponse"
