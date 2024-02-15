@@ -1,0 +1,54 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Город"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    City:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+          example: Amsterdam
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 23.123456
+            longitude:
+              type: number
+              example: 23.123456
+
+  parameters:
+    cityId:
+      name: cityId
+      description: Идентификатор города
+      in: query
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 65c8b2d810890bfad966b972

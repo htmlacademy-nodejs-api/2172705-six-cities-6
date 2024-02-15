@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { getErrorMessage } from '@/shared/lib/index.js';
+import { getErrorMessage } from '../../../shared/lib/index.js';
 import { ICommand } from './command.interface.js';
 
 type TPackageJSONConfig = {
@@ -21,7 +21,7 @@ export class VersionCommand implements ICommand {
     private readonly _filePath: string = './package.json',
   ) {}
 
-  private readVersion(): string {
+  private _readVersion(): string {
     const jsonContent = readFileSync(resolve(this._filePath), { encoding: 'utf-8' });
     const parsedContent: unknown = JSON.parse(jsonContent);
 
@@ -38,7 +38,7 @@ export class VersionCommand implements ICommand {
 
   public async execute(..._params: string[]): Promise<void> {
     try {
-      const version = this.readVersion();
+      const version = this._readVersion();
       console.info(chalk.green(version));
     } catch (err: unknown) {
       console.error(chalk.red(`Failed to read version from ${this._filePath}`));

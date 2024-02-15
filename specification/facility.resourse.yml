@@ -1,0 +1,35 @@
+openapi: 3.0.3
+
+info:
+  title: API-сервер проекта "Шесть городов"
+  description: Описание ресурса "Удобство"
+  contact:
+    name: Roman
+    email: romqaaa1337@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 1.0.0
+
+externalDocs:
+  description: Спецификация OpenAPI
+  url: https://spec.openapis.org/oas/latest.html
+
+paths: {}
+
+components:
+  schemas:
+    Facility:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Breakfast
+            - Air conditioning
+            - Laptop friendly workspace
+            - Baby seat
+            - Washer
+            - Towels
+            - Fridge
+          example: Breakfast

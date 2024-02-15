@@ -1,22 +1,23 @@
 import {
-  Ref,
   defaultClasses,
   getModelForClass,
   modelOptions,
-  prop
+  prop,
 } from '@typegoose/typegoose';
+import type { Ref } from '@typegoose/typegoose';
 import {
-  OfferTitle,
-  OfferDescription,
-  Rating,
-  HousingType,
-  RoomsCount,
-  GuestsCount,
-  Cost,
-  Facility,
-} from '@/shared/const/index.js';
-import { TLocation } from '@/shared/types/index.js';
-import { UserEntity } from '../user/user.model.js';
+  ERating,
+  EHousingType,
+  ERooms,
+  EGuests,
+  ECost,
+} from '../../shared/const/index.js';
+import type { TLocation } from '../../shared/types/index.js';
+import type { IOffer } from '../../shared/interfaces/index.js';
+import { FacilityEntity } from '../facility/index.js';
+import { UserEntity } from '../user/index.js';
+import { CityEntity } from '../city/index.js';
+import { EDescription, ETitle } from './const/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -28,33 +29,39 @@ export interface OfferEntity extends defaultClasses.Base {}
   },
 })
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export class OfferEntity {
+export class OfferEntity implements Omit<IOffer, 'author' | 'facilities' | 'city'> {
   @prop({
     required: true,
     trim: true,
-    minlength: [OfferTitle.Min, 'Min length for title is 10'],
-    maxlength: [OfferTitle.Max, 'Max length for title is 100'],
+    minlength: [ETitle.Min, 'Min length for title is 10'],
+    maxlength: [ETitle.Max, 'Max length for title is 100'],
   })
   public title: string;
 
   @prop({
     required: true,
     trim: true,
-    minlength: [OfferDescription.Min, 'Min length for description is 20'],
-    maxlength: [OfferDescription.Max, 'Max length for description is 1024'],
+    minlength: [EDescription.Min, 'Min length for description is 20'],
+    maxlength: [EDescription.Max, 'Max length for description is 1024'],
   })
   public description: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    trim: true
+  })
   public date: string;
 
-  @prop({ required: true })
-  public city: string;
-
-  @prop({ required: true })
+  @prop({
+    required: true,
+    trim: true
+  })
   public previewImage: string;
 
-  @prop({ required: true })
+  @prop({
+    required: true,
+    type: [String],
+  })
   public imagesList: string[];
 
   @prop({ required: true })
@@ -65,67 +72,67 @@ export class OfferEntity {
 
   @prop({
     required: true,
-    min: [Rating.Min, 'Min value for rating is 1'],
-    max: [Rating.Max, 'Max value for rating is 5'],
+    min: [ERating.Min, 'Min value for rating is 1'],
+    max: [ERating.Max, 'Max value for rating is 5'],
   })
   public rating: number;
 
   @prop({
     required: true,
-    type: () => String,
-    enum: HousingType,
+    trim: true,
+    type: String,
+    enum: EHousingType,
   })
-  public housingType: HousingType;
+  public housingType: EHousingType;
 
   @prop({
     required: true,
-    min: [RoomsCount.Min, 'Min value for rooms count is 1'],
-    max: [RoomsCount.Max, 'Max value for rooms count is 8'],
+    min: [ERooms.Min, 'Min value for rooms count is 1'],
+    max: [ERooms.Max, 'Max value for rooms count is 8'],
   })
   public roomsCount: number;
 
   @prop({
     required: true,
-    min: [GuestsCount.Min, 'Min value for guests count is 1'],
-    max: [GuestsCount.Max, 'Max value for guests count is 10'],
+    min: [EGuests.Min, 'Min value for guests count is 1'],
+    max: [EGuests.Max, 'Max value for guests count is 10'],
   })
   public guestsCount: number;
 
   @prop({
     required: true,
-    min: [Cost.Min, 'Min value for cost is 100'],
-    max: [Cost.Max, 'Max value for cost is 100000'],
+    min: [ECost.Min, 'Min value for cost is 100'],
+    max: [ECost.Max, 'Max value for cost is 100000'],
   })
   public cost: number;
 
-  @prop({
-    required: true,
-    default: [],
-    type: () => String,
-    enum: Facility,
-  })
-  public facilities: Facility;
+  @prop({ required: true })
+  public location: TLocation;
 
   @prop({
     required: true,
-    ref: UserEntity
+    default: 0,
+  })
+  public commentsCount: number;
+
+  @prop({
+    required: true,
+    ref: FacilityEntity,
+    default: [],
+  })
+  public facilityIds: Ref<FacilityEntity>[];
+
+  @prop({
+    required: true,
+    ref: UserEntity,
   })
   public authorId: Ref<UserEntity>;
 
   @prop({
     required: true,
-    type: () => ({
-      latitude: Number,
-      longitude: Number,
-    }),
+    ref: CityEntity,
   })
-  public location: TLocation;
-
-  @prop({
-    required: true,
-    default: 0
-  })
-  public commentsCount: number;
+  public cityId: Ref<CityEntity>;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

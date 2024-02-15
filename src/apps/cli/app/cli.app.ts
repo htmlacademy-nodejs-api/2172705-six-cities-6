@@ -1,8 +1,10 @@
+import { injectable } from 'inversify';
 import { ICommand } from '../command/command.interface.js';
 import { CommandParser } from './lib/index.js';
 
 type RegistredCommands = Record<string, ICommand>;
 
+@injectable()
 export class CLIApp {
   private _registredCommands: RegistredCommands = {};
 
@@ -10,7 +12,7 @@ export class CLIApp {
     private readonly _defaultCommand: string = '--help'
   ) {}
 
-  private getCommand(name: string): ICommand {
+  private _getCommand(name: string): ICommand {
     return this._registredCommands[name] ?? this._registredCommands[this._defaultCommand];
   }
 
@@ -27,7 +29,7 @@ export class CLIApp {
   public proccessCommand(argv: string[]): void {
     const parsedCommand = CommandParser.parse(argv);
     const [commandName] = Object.keys(parsedCommand);
-    const command = this.getCommand(commandName);
+    const command = this._getCommand(commandName);
     const commandArgs = parsedCommand[commandName] ?? [];
     command.execute(...commandArgs);
   }
